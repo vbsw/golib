@@ -5,7 +5,7 @@
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-// Package osargs provides functions to parse command line arguments.
+// Package osargs parses command line arguments.
 package osargs
 
 import (

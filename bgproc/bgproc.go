@@ -4,7 +4,7 @@
 //        http://www.boost.org/LICENSE_1_0.txt)
 
 // Package bgproc starts a process in "background",
-// i.e. a from terminal detached process.
+// i.e. as a from terminal detached process.
 package bgproc
 
 // Process holds the name of the program and its arguments.

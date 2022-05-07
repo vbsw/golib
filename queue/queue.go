@@ -5,7 +5,7 @@
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-// Package queue provides a First-In-First-Out queue.
+// Package queue provides a simple First-In-First-Out queue.
 package queue
 
 const (
