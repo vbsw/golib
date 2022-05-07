@@ -15,8 +15,8 @@ var (
 // Register returns a new id number for obj. obj will not be garbage collected until
 // Unregister is called with this id.
 func Register(obj interface{}) int {
-	for i, o :=   range objs {
-				if o == nil {
+	for i, o := range objs {
+		if o == nil {
 			objs[i] = obj
 			return i
 		}
@@ -25,7 +25,7 @@ func Register(obj interface{}) int {
 	return len(objs) - 1
 }
 
-// Functiion makes the object, identified by id, no more identified by id.
+// Unregister makes the object no more identified by id.
 // This object may be garbage collected, now.
 func Unregister(id int) interface{} {
 	obj := objs[id]

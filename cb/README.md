@@ -1,6 +1,6 @@
 # cb
 
-[![GoDoc](https://godoc.org/github.com/vbsw/golib/cb?status.svg)](https://godoc.org/github.com/vbsw/golib/cb) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
+[![GoDoc](https://godoc.org/github.com/vbsw/golib/cb?status.svg)](https://godoc.org/github.com/vbsw/golib/cb) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/cb)](https://goreportcard.com/report/github.com/vbsw/golib/cb) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
 ## About
 cb is a package for Go to map objects to ids. This allows to manage callbacks from C to Go. It is published on <https://github.com/vbsw/golib/cb>.
