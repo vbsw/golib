@@ -1,4 +1,4 @@
-# golib Package
+# golib
 
 [![GoDoc](https://godoc.org/github.com/vbsw/golib?status.svg)](https://godoc.org/github.com/vbsw/golib) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib)](https://goreportcard.com/report/github.com/vbsw/golib) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
