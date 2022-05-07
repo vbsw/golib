@@ -1,6 +1,6 @@
 # queue
 
-[![GoDoc](https://godoc.org/github.com/vbsw/golib/queue?status.svg)](https://godoc.org/github.com/vbsw/golib/queue) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
+[![GoDoc](https://godoc.org/github.com/vbsw/golib/queue?status.svg)](https://godoc.org/github.com/vbsw/golib/queue) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/queue)](https://goreportcard.com/report/github.com/vbsw/golib/queue) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
 ## About
 queue is a package for Go to create a simple First-In-First-Out queue. It is published on <https://github.com/vbsw/golib/queue>.
