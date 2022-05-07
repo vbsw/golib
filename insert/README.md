@@ -6,7 +6,7 @@
 insert is a package for Go to insert data into slices of basic types. It is published on <https://github.com/vbsw/golib/insert>.
 
 ## Copyright
-Copyright 2020, Vitali Baumtrok (vbsw@mailbox.org).
+Copyright 2020, 2022, Vitali Baumtrok (vbsw@mailbox.org).
 
 golib is distributed under the Boost Software License, version 1.0. (See accompanying file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 

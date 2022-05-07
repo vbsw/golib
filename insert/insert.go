@@ -1,5 +1,5 @@
 /*
- *          Copyright 2020, Vitali Baumtrok.
+ *          Copyright 2022, Vitali Baumtrok.
  * Distributed under the Boost Software License, Version 1.0.
  *      (See accompanying file LICENSE or copy at
  *        http://www.boost.org/LICENSE_1_0.txt)
@@ -15,11 +15,11 @@ import (
 // Bool inserts value in list.
 func Bool(list []bool, index int, value bool) []bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]bool, lengthNew, lengthNew+lengthNew>>1)
@@ -36,11 +36,11 @@ func Bool(list []bool, index int, value bool) []bool {
 // BoolD2 inserts value in list.
 func BoolD2(list [][]bool, index int, value []bool) [][]bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]bool, lengthNew, lengthNew+lengthNew>>1)
@@ -57,11 +57,11 @@ func BoolD2(list [][]bool, index int, value []bool) [][]bool {
 // BoolD3 inserts value in list.
 func BoolD3(list [][][]bool, index int, value [][]bool) [][][]bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]bool, lengthNew, lengthNew+lengthNew>>1)
@@ -78,11 +78,11 @@ func BoolD3(list [][][]bool, index int, value [][]bool) [][][]bool {
 // BoolD4 inserts value in list.
 func BoolD4(list [][][][]bool, index int, value [][][]bool) [][][][]bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]bool, lengthNew, lengthNew+lengthNew>>1)
@@ -99,11 +99,11 @@ func BoolD4(list [][][][]bool, index int, value [][][]bool) [][][][]bool {
 // BoolD5 inserts value in list.
 func BoolD5(list [][][][][]bool, index int, value [][][][]bool) [][][][][]bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]bool, lengthNew, lengthNew+lengthNew>>1)
@@ -120,11 +120,11 @@ func BoolD5(list [][][][][]bool, index int, value [][][][]bool) [][][][][]bool {
 // BoolN inserts values in list.
 func BoolN(list []bool, index int, values []bool) []bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]bool, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -140,11 +140,11 @@ func BoolN(list []bool, index int, values []bool) []bool {
 // BoolND2 inserts values in list.
 func BoolND2(list [][]bool, index int, values [][]bool) [][]bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]bool, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -160,11 +160,11 @@ func BoolND2(list [][]bool, index int, values [][]bool) [][]bool {
 // BoolND3 inserts values in list.
 func BoolND3(list [][][]bool, index int, values [][][]bool) [][][]bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]bool, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -180,11 +180,11 @@ func BoolND3(list [][][]bool, index int, values [][][]bool) [][][]bool {
 // BoolND4 inserts values in list.
 func BoolND4(list [][][][]bool, index int, values [][][][]bool) [][][][]bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]bool, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -200,11 +200,11 @@ func BoolND4(list [][][][]bool, index int, values [][][][]bool) [][][][]bool {
 // BoolND5 inserts values in list.
 func BoolND5(list [][][][][]bool, index int, values [][][][][]bool) [][][][][]bool {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]bool, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -220,11 +220,11 @@ func BoolND5(list [][][][][]bool, index int, values [][][][][]bool) [][][][][]bo
 // Byte inserts value in list.
 func Byte(list []byte, index int, value byte) []byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]byte, lengthNew, lengthNew+lengthNew>>1)
@@ -241,11 +241,11 @@ func Byte(list []byte, index int, value byte) []byte {
 // ByteD2 inserts value in list.
 func ByteD2(list [][]byte, index int, value []byte) [][]byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]byte, lengthNew, lengthNew+lengthNew>>1)
@@ -262,11 +262,11 @@ func ByteD2(list [][]byte, index int, value []byte) [][]byte {
 // ByteD3 inserts value in list.
 func ByteD3(list [][][]byte, index int, value [][]byte) [][][]byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]byte, lengthNew, lengthNew+lengthNew>>1)
@@ -283,11 +283,11 @@ func ByteD3(list [][][]byte, index int, value [][]byte) [][][]byte {
 // ByteD4 inserts value in list.
 func ByteD4(list [][][][]byte, index int, value [][][]byte) [][][][]byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]byte, lengthNew, lengthNew+lengthNew>>1)
@@ -304,11 +304,11 @@ func ByteD4(list [][][][]byte, index int, value [][][]byte) [][][][]byte {
 // ByteD5 inserts value in list.
 func ByteD5(list [][][][][]byte, index int, value [][][][]byte) [][][][][]byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]byte, lengthNew, lengthNew+lengthNew>>1)
@@ -325,11 +325,11 @@ func ByteD5(list [][][][][]byte, index int, value [][][][]byte) [][][][][]byte {
 // ByteN inserts values in list.
 func ByteN(list []byte, index int, values []byte) []byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]byte, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -345,11 +345,11 @@ func ByteN(list []byte, index int, values []byte) []byte {
 // ByteND2 inserts values in list.
 func ByteND2(list [][]byte, index int, values [][]byte) [][]byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]byte, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -365,11 +365,11 @@ func ByteND2(list [][]byte, index int, values [][]byte) [][]byte {
 // ByteND3 inserts values in list.
 func ByteND3(list [][][]byte, index int, values [][][]byte) [][][]byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]byte, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -385,11 +385,11 @@ func ByteND3(list [][][]byte, index int, values [][][]byte) [][][]byte {
 // ByteND4 inserts values in list.
 func ByteND4(list [][][][]byte, index int, values [][][][]byte) [][][][]byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]byte, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -405,11 +405,11 @@ func ByteND4(list [][][][]byte, index int, values [][][][]byte) [][][][]byte {
 // ByteND5 inserts values in list.
 func ByteND5(list [][][][][]byte, index int, values [][][][][]byte) [][][][][]byte {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]byte, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -425,11 +425,11 @@ func ByteND5(list [][][][][]byte, index int, values [][][][][]byte) [][][][][]by
 // Complex64 inserts value in list.
 func Complex64(list []complex64, index int, value complex64) []complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]complex64, lengthNew, lengthNew+lengthNew>>1)
@@ -446,11 +446,11 @@ func Complex64(list []complex64, index int, value complex64) []complex64 {
 // Complex64D2 inserts value in list.
 func Complex64D2(list [][]complex64, index int, value []complex64) [][]complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]complex64, lengthNew, lengthNew+lengthNew>>1)
@@ -467,11 +467,11 @@ func Complex64D2(list [][]complex64, index int, value []complex64) [][]complex64
 // Complex64D3 inserts value in list.
 func Complex64D3(list [][][]complex64, index int, value [][]complex64) [][][]complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]complex64, lengthNew, lengthNew+lengthNew>>1)
@@ -488,11 +488,11 @@ func Complex64D3(list [][][]complex64, index int, value [][]complex64) [][][]com
 // Complex64D4 inserts value in list.
 func Complex64D4(list [][][][]complex64, index int, value [][][]complex64) [][][][]complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]complex64, lengthNew, lengthNew+lengthNew>>1)
@@ -509,11 +509,11 @@ func Complex64D4(list [][][][]complex64, index int, value [][][]complex64) [][][
 // Complex64D5 inserts value in list.
 func Complex64D5(list [][][][][]complex64, index int, value [][][][]complex64) [][][][][]complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]complex64, lengthNew, lengthNew+lengthNew>>1)
@@ -530,11 +530,11 @@ func Complex64D5(list [][][][][]complex64, index int, value [][][][]complex64) [
 // Complex64N inserts values in list.
 func Complex64N(list []complex64, index int, values []complex64) []complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]complex64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -550,11 +550,11 @@ func Complex64N(list []complex64, index int, values []complex64) []complex64 {
 // Complex64ND2 inserts values in list.
 func Complex64ND2(list [][]complex64, index int, values [][]complex64) [][]complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]complex64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -570,11 +570,11 @@ func Complex64ND2(list [][]complex64, index int, values [][]complex64) [][]compl
 // Complex64ND3 inserts values in list.
 func Complex64ND3(list [][][]complex64, index int, values [][][]complex64) [][][]complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]complex64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -590,11 +590,11 @@ func Complex64ND3(list [][][]complex64, index int, values [][][]complex64) [][][
 // Complex64ND4 inserts values in list.
 func Complex64ND4(list [][][][]complex64, index int, values [][][][]complex64) [][][][]complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]complex64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -610,11 +610,11 @@ func Complex64ND4(list [][][][]complex64, index int, values [][][][]complex64) [
 // Complex64ND5 inserts values in list.
 func Complex64ND5(list [][][][][]complex64, index int, values [][][][][]complex64) [][][][][]complex64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]complex64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -630,11 +630,11 @@ func Complex64ND5(list [][][][][]complex64, index int, values [][][][][]complex6
 // Complex128 inserts value in list.
 func Complex128(list []complex128, index int, value complex128) []complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]complex128, lengthNew, lengthNew+lengthNew>>1)
@@ -651,11 +651,11 @@ func Complex128(list []complex128, index int, value complex128) []complex128 {
 // Complex128D2 inserts value in list.
 func Complex128D2(list [][]complex128, index int, value []complex128) [][]complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]complex128, lengthNew, lengthNew+lengthNew>>1)
@@ -672,11 +672,11 @@ func Complex128D2(list [][]complex128, index int, value []complex128) [][]comple
 // Complex128D3 inserts value in list.
 func Complex128D3(list [][][]complex128, index int, value [][]complex128) [][][]complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]complex128, lengthNew, lengthNew+lengthNew>>1)
@@ -693,11 +693,11 @@ func Complex128D3(list [][][]complex128, index int, value [][]complex128) [][][]
 // Complex128D4 inserts value in list.
 func Complex128D4(list [][][][]complex128, index int, value [][][]complex128) [][][][]complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]complex128, lengthNew, lengthNew+lengthNew>>1)
@@ -714,11 +714,11 @@ func Complex128D4(list [][][][]complex128, index int, value [][][]complex128) []
 // Complex128D5 inserts value in list.
 func Complex128D5(list [][][][][]complex128, index int, value [][][][]complex128) [][][][][]complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]complex128, lengthNew, lengthNew+lengthNew>>1)
@@ -735,11 +735,11 @@ func Complex128D5(list [][][][][]complex128, index int, value [][][][]complex128
 // Complex128N inserts values in list.
 func Complex128N(list []complex128, index int, values []complex128) []complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]complex128, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -755,11 +755,11 @@ func Complex128N(list []complex128, index int, values []complex128) []complex128
 // Complex128ND2 inserts values in list.
 func Complex128ND2(list [][]complex128, index int, values [][]complex128) [][]complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]complex128, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -775,11 +775,11 @@ func Complex128ND2(list [][]complex128, index int, values [][]complex128) [][]co
 // Complex128ND3 inserts values in list.
 func Complex128ND3(list [][][]complex128, index int, values [][][]complex128) [][][]complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]complex128, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -795,11 +795,11 @@ func Complex128ND3(list [][][]complex128, index int, values [][][]complex128) []
 // Complex128ND4 inserts values in list.
 func Complex128ND4(list [][][][]complex128, index int, values [][][][]complex128) [][][][]complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]complex128, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -815,11 +815,11 @@ func Complex128ND4(list [][][][]complex128, index int, values [][][][]complex128
 // Complex128ND5 inserts values in list.
 func Complex128ND5(list [][][][][]complex128, index int, values [][][][][]complex128) [][][][][]complex128 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]complex128, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -835,11 +835,11 @@ func Complex128ND5(list [][][][][]complex128, index int, values [][][][][]comple
 // Error inserts value in list.
 func Error(list []error, index int, value error) []error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]error, lengthNew, lengthNew+lengthNew>>1)
@@ -856,11 +856,11 @@ func Error(list []error, index int, value error) []error {
 // ErrorD2 inserts value in list.
 func ErrorD2(list [][]error, index int, value []error) [][]error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]error, lengthNew, lengthNew+lengthNew>>1)
@@ -877,11 +877,11 @@ func ErrorD2(list [][]error, index int, value []error) [][]error {
 // ErrorD3 inserts value in list.
 func ErrorD3(list [][][]error, index int, value [][]error) [][][]error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]error, lengthNew, lengthNew+lengthNew>>1)
@@ -898,11 +898,11 @@ func ErrorD3(list [][][]error, index int, value [][]error) [][][]error {
 // ErrorD4 inserts value in list.
 func ErrorD4(list [][][][]error, index int, value [][][]error) [][][][]error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]error, lengthNew, lengthNew+lengthNew>>1)
@@ -919,11 +919,11 @@ func ErrorD4(list [][][][]error, index int, value [][][]error) [][][][]error {
 // ErrorD5 inserts value in list.
 func ErrorD5(list [][][][][]error, index int, value [][][][]error) [][][][][]error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]error, lengthNew, lengthNew+lengthNew>>1)
@@ -940,11 +940,11 @@ func ErrorD5(list [][][][][]error, index int, value [][][][]error) [][][][][]err
 // ErrorN inserts values in list.
 func ErrorN(list []error, index int, values []error) []error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]error, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -960,11 +960,11 @@ func ErrorN(list []error, index int, values []error) []error {
 // ErrorND2 inserts values in list.
 func ErrorND2(list [][]error, index int, values [][]error) [][]error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]error, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -980,11 +980,11 @@ func ErrorND2(list [][]error, index int, values [][]error) [][]error {
 // ErrorND3 inserts values in list.
 func ErrorND3(list [][][]error, index int, values [][][]error) [][][]error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]error, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1000,11 +1000,11 @@ func ErrorND3(list [][][]error, index int, values [][][]error) [][][]error {
 // ErrorND4 inserts values in list.
 func ErrorND4(list [][][][]error, index int, values [][][][]error) [][][][]error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]error, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1020,11 +1020,11 @@ func ErrorND4(list [][][][]error, index int, values [][][][]error) [][][][]error
 // ErrorND5 inserts values in list.
 func ErrorND5(list [][][][][]error, index int, values [][][][][]error) [][][][][]error {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]error, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1040,11 +1040,11 @@ func ErrorND5(list [][][][][]error, index int, values [][][][][]error) [][][][][
 // Float32 inserts value in list.
 func Float32(list []float32, index int, value float32) []float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]float32, lengthNew, lengthNew+lengthNew>>1)
@@ -1061,11 +1061,11 @@ func Float32(list []float32, index int, value float32) []float32 {
 // Float32D2 inserts value in list.
 func Float32D2(list [][]float32, index int, value []float32) [][]float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]float32, lengthNew, lengthNew+lengthNew>>1)
@@ -1082,11 +1082,11 @@ func Float32D2(list [][]float32, index int, value []float32) [][]float32 {
 // Float32D3 inserts value in list.
 func Float32D3(list [][][]float32, index int, value [][]float32) [][][]float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]float32, lengthNew, lengthNew+lengthNew>>1)
@@ -1103,11 +1103,11 @@ func Float32D3(list [][][]float32, index int, value [][]float32) [][][]float32 {
 // Float32D4 inserts value in list.
 func Float32D4(list [][][][]float32, index int, value [][][]float32) [][][][]float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]float32, lengthNew, lengthNew+lengthNew>>1)
@@ -1124,11 +1124,11 @@ func Float32D4(list [][][][]float32, index int, value [][][]float32) [][][][]flo
 // Float32D5 inserts value in list.
 func Float32D5(list [][][][][]float32, index int, value [][][][]float32) [][][][][]float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]float32, lengthNew, lengthNew+lengthNew>>1)
@@ -1145,11 +1145,11 @@ func Float32D5(list [][][][][]float32, index int, value [][][][]float32) [][][][
 // Float32N inserts values in list.
 func Float32N(list []float32, index int, values []float32) []float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]float32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1165,11 +1165,11 @@ func Float32N(list []float32, index int, values []float32) []float32 {
 // Float32ND2 inserts values in list.
 func Float32ND2(list [][]float32, index int, values [][]float32) [][]float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]float32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1185,11 +1185,11 @@ func Float32ND2(list [][]float32, index int, values [][]float32) [][]float32 {
 // Float32ND3 inserts values in list.
 func Float32ND3(list [][][]float32, index int, values [][][]float32) [][][]float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]float32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1205,11 +1205,11 @@ func Float32ND3(list [][][]float32, index int, values [][][]float32) [][][]float
 // Float32ND4 inserts values in list.
 func Float32ND4(list [][][][]float32, index int, values [][][][]float32) [][][][]float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]float32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1225,11 +1225,11 @@ func Float32ND4(list [][][][]float32, index int, values [][][][]float32) [][][][
 // Float32ND5 inserts values in list.
 func Float32ND5(list [][][][][]float32, index int, values [][][][][]float32) [][][][][]float32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]float32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1245,11 +1245,11 @@ func Float32ND5(list [][][][][]float32, index int, values [][][][][]float32) [][
 // Float64 inserts value in list.
 func Float64(list []float64, index int, value float64) []float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]float64, lengthNew, lengthNew+lengthNew>>1)
@@ -1266,11 +1266,11 @@ func Float64(list []float64, index int, value float64) []float64 {
 // Float64D2 inserts value in list.
 func Float64D2(list [][]float64, index int, value []float64) [][]float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]float64, lengthNew, lengthNew+lengthNew>>1)
@@ -1287,11 +1287,11 @@ func Float64D2(list [][]float64, index int, value []float64) [][]float64 {
 // Float64D3 inserts value in list.
 func Float64D3(list [][][]float64, index int, value [][]float64) [][][]float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]float64, lengthNew, lengthNew+lengthNew>>1)
@@ -1308,11 +1308,11 @@ func Float64D3(list [][][]float64, index int, value [][]float64) [][][]float64 {
 // Float64D4 inserts value in list.
 func Float64D4(list [][][][]float64, index int, value [][][]float64) [][][][]float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]float64, lengthNew, lengthNew+lengthNew>>1)
@@ -1329,11 +1329,11 @@ func Float64D4(list [][][][]float64, index int, value [][][]float64) [][][][]flo
 // Float64D5 inserts value in list.
 func Float64D5(list [][][][][]float64, index int, value [][][][]float64) [][][][][]float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]float64, lengthNew, lengthNew+lengthNew>>1)
@@ -1350,11 +1350,11 @@ func Float64D5(list [][][][][]float64, index int, value [][][][]float64) [][][][
 // Float64N inserts values in list.
 func Float64N(list []float64, index int, values []float64) []float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]float64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1370,11 +1370,11 @@ func Float64N(list []float64, index int, values []float64) []float64 {
 // Float64ND2 inserts values in list.
 func Float64ND2(list [][]float64, index int, values [][]float64) [][]float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]float64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1390,11 +1390,11 @@ func Float64ND2(list [][]float64, index int, values [][]float64) [][]float64 {
 // Float64ND3 inserts values in list.
 func Float64ND3(list [][][]float64, index int, values [][][]float64) [][][]float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]float64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1410,11 +1410,11 @@ func Float64ND3(list [][][]float64, index int, values [][][]float64) [][][]float
 // Float64ND4 inserts values in list.
 func Float64ND4(list [][][][]float64, index int, values [][][][]float64) [][][][]float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]float64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1430,11 +1430,11 @@ func Float64ND4(list [][][][]float64, index int, values [][][][]float64) [][][][
 // Float64ND5 inserts values in list.
 func Float64ND5(list [][][][][]float64, index int, values [][][][][]float64) [][][][][]float64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]float64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1450,11 +1450,11 @@ func Float64ND5(list [][][][][]float64, index int, values [][][][][]float64) [][
 // Int inserts value in list.
 func Int(list []int, index int, value int) []int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]int, lengthNew, lengthNew+lengthNew>>1)
@@ -1471,11 +1471,11 @@ func Int(list []int, index int, value int) []int {
 // IntD2 inserts value in list.
 func IntD2(list [][]int, index int, value []int) [][]int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]int, lengthNew, lengthNew+lengthNew>>1)
@@ -1492,11 +1492,11 @@ func IntD2(list [][]int, index int, value []int) [][]int {
 // IntD3 inserts value in list.
 func IntD3(list [][][]int, index int, value [][]int) [][][]int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]int, lengthNew, lengthNew+lengthNew>>1)
@@ -1513,11 +1513,11 @@ func IntD3(list [][][]int, index int, value [][]int) [][][]int {
 // IntD4 inserts value in list.
 func IntD4(list [][][][]int, index int, value [][][]int) [][][][]int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]int, lengthNew, lengthNew+lengthNew>>1)
@@ -1534,11 +1534,11 @@ func IntD4(list [][][][]int, index int, value [][][]int) [][][][]int {
 // IntD5 inserts value in list.
 func IntD5(list [][][][][]int, index int, value [][][][]int) [][][][][]int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]int, lengthNew, lengthNew+lengthNew>>1)
@@ -1555,11 +1555,11 @@ func IntD5(list [][][][][]int, index int, value [][][][]int) [][][][][]int {
 // IntN inserts values in list.
 func IntN(list []int, index int, values []int) []int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]int, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1575,11 +1575,11 @@ func IntN(list []int, index int, values []int) []int {
 // IntND2 inserts values in list.
 func IntND2(list [][]int, index int, values [][]int) [][]int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]int, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1595,11 +1595,11 @@ func IntND2(list [][]int, index int, values [][]int) [][]int {
 // IntND3 inserts values in list.
 func IntND3(list [][][]int, index int, values [][][]int) [][][]int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]int, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1615,11 +1615,11 @@ func IntND3(list [][][]int, index int, values [][][]int) [][][]int {
 // IntND4 inserts values in list.
 func IntND4(list [][][][]int, index int, values [][][][]int) [][][][]int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]int, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1635,11 +1635,11 @@ func IntND4(list [][][][]int, index int, values [][][][]int) [][][][]int {
 // IntND5 inserts values in list.
 func IntND5(list [][][][][]int, index int, values [][][][][]int) [][][][][]int {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]int, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1655,11 +1655,11 @@ func IntND5(list [][][][][]int, index int, values [][][][][]int) [][][][][]int {
 // Int8 inserts value in list.
 func Int8(list []int8, index int, value int8) []int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]int8, lengthNew, lengthNew+lengthNew>>1)
@@ -1676,11 +1676,11 @@ func Int8(list []int8, index int, value int8) []int8 {
 // Int8D2 inserts value in list.
 func Int8D2(list [][]int8, index int, value []int8) [][]int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]int8, lengthNew, lengthNew+lengthNew>>1)
@@ -1697,11 +1697,11 @@ func Int8D2(list [][]int8, index int, value []int8) [][]int8 {
 // Int8D3 inserts value in list.
 func Int8D3(list [][][]int8, index int, value [][]int8) [][][]int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]int8, lengthNew, lengthNew+lengthNew>>1)
@@ -1718,11 +1718,11 @@ func Int8D3(list [][][]int8, index int, value [][]int8) [][][]int8 {
 // Int8D4 inserts value in list.
 func Int8D4(list [][][][]int8, index int, value [][][]int8) [][][][]int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]int8, lengthNew, lengthNew+lengthNew>>1)
@@ -1739,11 +1739,11 @@ func Int8D4(list [][][][]int8, index int, value [][][]int8) [][][][]int8 {
 // Int8D5 inserts value in list.
 func Int8D5(list [][][][][]int8, index int, value [][][][]int8) [][][][][]int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]int8, lengthNew, lengthNew+lengthNew>>1)
@@ -1760,11 +1760,11 @@ func Int8D5(list [][][][][]int8, index int, value [][][][]int8) [][][][][]int8 {
 // Int8N inserts values in list.
 func Int8N(list []int8, index int, values []int8) []int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]int8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1780,11 +1780,11 @@ func Int8N(list []int8, index int, values []int8) []int8 {
 // Int8ND2 inserts values in list.
 func Int8ND2(list [][]int8, index int, values [][]int8) [][]int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]int8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1800,11 +1800,11 @@ func Int8ND2(list [][]int8, index int, values [][]int8) [][]int8 {
 // Int8ND3 inserts values in list.
 func Int8ND3(list [][][]int8, index int, values [][][]int8) [][][]int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]int8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1820,11 +1820,11 @@ func Int8ND3(list [][][]int8, index int, values [][][]int8) [][][]int8 {
 // Int8ND4 inserts values in list.
 func Int8ND4(list [][][][]int8, index int, values [][][][]int8) [][][][]int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]int8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1840,11 +1840,11 @@ func Int8ND4(list [][][][]int8, index int, values [][][][]int8) [][][][]int8 {
 // Int8ND5 inserts values in list.
 func Int8ND5(list [][][][][]int8, index int, values [][][][][]int8) [][][][][]int8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]int8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1860,11 +1860,11 @@ func Int8ND5(list [][][][][]int8, index int, values [][][][][]int8) [][][][][]in
 // Int16 inserts value in list.
 func Int16(list []int16, index int, value int16) []int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]int16, lengthNew, lengthNew+lengthNew>>1)
@@ -1881,11 +1881,11 @@ func Int16(list []int16, index int, value int16) []int16 {
 // Int16D2 inserts value in list.
 func Int16D2(list [][]int16, index int, value []int16) [][]int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]int16, lengthNew, lengthNew+lengthNew>>1)
@@ -1902,11 +1902,11 @@ func Int16D2(list [][]int16, index int, value []int16) [][]int16 {
 // Int16D3 inserts value in list.
 func Int16D3(list [][][]int16, index int, value [][]int16) [][][]int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]int16, lengthNew, lengthNew+lengthNew>>1)
@@ -1923,11 +1923,11 @@ func Int16D3(list [][][]int16, index int, value [][]int16) [][][]int16 {
 // Int16D4 inserts value in list.
 func Int16D4(list [][][][]int16, index int, value [][][]int16) [][][][]int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]int16, lengthNew, lengthNew+lengthNew>>1)
@@ -1944,11 +1944,11 @@ func Int16D4(list [][][][]int16, index int, value [][][]int16) [][][][]int16 {
 // Int16D5 inserts value in list.
 func Int16D5(list [][][][][]int16, index int, value [][][][]int16) [][][][][]int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]int16, lengthNew, lengthNew+lengthNew>>1)
@@ -1965,11 +1965,11 @@ func Int16D5(list [][][][][]int16, index int, value [][][][]int16) [][][][][]int
 // Int16N inserts values in list.
 func Int16N(list []int16, index int, values []int16) []int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]int16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -1985,11 +1985,11 @@ func Int16N(list []int16, index int, values []int16) []int16 {
 // Int16ND2 inserts values in list.
 func Int16ND2(list [][]int16, index int, values [][]int16) [][]int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]int16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2005,11 +2005,11 @@ func Int16ND2(list [][]int16, index int, values [][]int16) [][]int16 {
 // Int16ND3 inserts values in list.
 func Int16ND3(list [][][]int16, index int, values [][][]int16) [][][]int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]int16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2025,11 +2025,11 @@ func Int16ND3(list [][][]int16, index int, values [][][]int16) [][][]int16 {
 // Int16ND4 inserts values in list.
 func Int16ND4(list [][][][]int16, index int, values [][][][]int16) [][][][]int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]int16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2045,11 +2045,11 @@ func Int16ND4(list [][][][]int16, index int, values [][][][]int16) [][][][]int16
 // Int16ND5 inserts values in list.
 func Int16ND5(list [][][][][]int16, index int, values [][][][][]int16) [][][][][]int16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]int16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2065,11 +2065,11 @@ func Int16ND5(list [][][][][]int16, index int, values [][][][][]int16) [][][][][
 // Int32 inserts value in list.
 func Int32(list []int32, index int, value int32) []int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]int32, lengthNew, lengthNew+lengthNew>>1)
@@ -2086,11 +2086,11 @@ func Int32(list []int32, index int, value int32) []int32 {
 // Int32D2 inserts value in list.
 func Int32D2(list [][]int32, index int, value []int32) [][]int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]int32, lengthNew, lengthNew+lengthNew>>1)
@@ -2107,11 +2107,11 @@ func Int32D2(list [][]int32, index int, value []int32) [][]int32 {
 // Int32D3 inserts value in list.
 func Int32D3(list [][][]int32, index int, value [][]int32) [][][]int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]int32, lengthNew, lengthNew+lengthNew>>1)
@@ -2128,11 +2128,11 @@ func Int32D3(list [][][]int32, index int, value [][]int32) [][][]int32 {
 // Int32D4 inserts value in list.
 func Int32D4(list [][][][]int32, index int, value [][][]int32) [][][][]int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]int32, lengthNew, lengthNew+lengthNew>>1)
@@ -2149,11 +2149,11 @@ func Int32D4(list [][][][]int32, index int, value [][][]int32) [][][][]int32 {
 // Int32D5 inserts value in list.
 func Int32D5(list [][][][][]int32, index int, value [][][][]int32) [][][][][]int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]int32, lengthNew, lengthNew+lengthNew>>1)
@@ -2170,11 +2170,11 @@ func Int32D5(list [][][][][]int32, index int, value [][][][]int32) [][][][][]int
 // Int32N inserts values in list.
 func Int32N(list []int32, index int, values []int32) []int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]int32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2190,11 +2190,11 @@ func Int32N(list []int32, index int, values []int32) []int32 {
 // Int32ND2 inserts values in list.
 func Int32ND2(list [][]int32, index int, values [][]int32) [][]int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]int32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2210,11 +2210,11 @@ func Int32ND2(list [][]int32, index int, values [][]int32) [][]int32 {
 // Int32ND3 inserts values in list.
 func Int32ND3(list [][][]int32, index int, values [][][]int32) [][][]int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]int32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2230,11 +2230,11 @@ func Int32ND3(list [][][]int32, index int, values [][][]int32) [][][]int32 {
 // Int32ND4 inserts values in list.
 func Int32ND4(list [][][][]int32, index int, values [][][][]int32) [][][][]int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]int32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2250,11 +2250,11 @@ func Int32ND4(list [][][][]int32, index int, values [][][][]int32) [][][][]int32
 // Int32ND5 inserts values in list.
 func Int32ND5(list [][][][][]int32, index int, values [][][][][]int32) [][][][][]int32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]int32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2270,11 +2270,11 @@ func Int32ND5(list [][][][][]int32, index int, values [][][][][]int32) [][][][][
 // Int64 inserts value in list.
 func Int64(list []int64, index int, value int64) []int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]int64, lengthNew, lengthNew+lengthNew>>1)
@@ -2291,11 +2291,11 @@ func Int64(list []int64, index int, value int64) []int64 {
 // Int64D2 inserts value in list.
 func Int64D2(list [][]int64, index int, value []int64) [][]int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]int64, lengthNew, lengthNew+lengthNew>>1)
@@ -2312,11 +2312,11 @@ func Int64D2(list [][]int64, index int, value []int64) [][]int64 {
 // Int64D3 inserts value in list.
 func Int64D3(list [][][]int64, index int, value [][]int64) [][][]int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]int64, lengthNew, lengthNew+lengthNew>>1)
@@ -2333,11 +2333,11 @@ func Int64D3(list [][][]int64, index int, value [][]int64) [][][]int64 {
 // Int64D4 inserts value in list.
 func Int64D4(list [][][][]int64, index int, value [][][]int64) [][][][]int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]int64, lengthNew, lengthNew+lengthNew>>1)
@@ -2354,11 +2354,11 @@ func Int64D4(list [][][][]int64, index int, value [][][]int64) [][][][]int64 {
 // Int64D5 inserts value in list.
 func Int64D5(list [][][][][]int64, index int, value [][][][]int64) [][][][][]int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]int64, lengthNew, lengthNew+lengthNew>>1)
@@ -2375,11 +2375,11 @@ func Int64D5(list [][][][][]int64, index int, value [][][][]int64) [][][][][]int
 // Int64N inserts values in list.
 func Int64N(list []int64, index int, values []int64) []int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]int64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2395,11 +2395,11 @@ func Int64N(list []int64, index int, values []int64) []int64 {
 // Int64ND2 inserts values in list.
 func Int64ND2(list [][]int64, index int, values [][]int64) [][]int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]int64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2415,11 +2415,11 @@ func Int64ND2(list [][]int64, index int, values [][]int64) [][]int64 {
 // Int64ND3 inserts values in list.
 func Int64ND3(list [][][]int64, index int, values [][][]int64) [][][]int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]int64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2435,11 +2435,11 @@ func Int64ND3(list [][][]int64, index int, values [][][]int64) [][][]int64 {
 // Int64ND4 inserts values in list.
 func Int64ND4(list [][][][]int64, index int, values [][][][]int64) [][][][]int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]int64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2455,11 +2455,11 @@ func Int64ND4(list [][][][]int64, index int, values [][][][]int64) [][][][]int64
 // Int64ND5 inserts values in list.
 func Int64ND5(list [][][][][]int64, index int, values [][][][][]int64) [][][][][]int64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]int64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2475,11 +2475,11 @@ func Int64ND5(list [][][][][]int64, index int, values [][][][][]int64) [][][][][
 // Interface inserts value in list.
 func Interface(list []interface{}, index int, value interface{}) []interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]interface{}, lengthNew, lengthNew+lengthNew>>1)
@@ -2496,11 +2496,11 @@ func Interface(list []interface{}, index int, value interface{}) []interface{} {
 // InterfaceD2 inserts value in list.
 func InterfaceD2(list [][]interface{}, index int, value []interface{}) [][]interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]interface{}, lengthNew, lengthNew+lengthNew>>1)
@@ -2517,11 +2517,11 @@ func InterfaceD2(list [][]interface{}, index int, value []interface{}) [][]inter
 // InterfaceD3 inserts value in list.
 func InterfaceD3(list [][][]interface{}, index int, value [][]interface{}) [][][]interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]interface{}, lengthNew, lengthNew+lengthNew>>1)
@@ -2538,11 +2538,11 @@ func InterfaceD3(list [][][]interface{}, index int, value [][]interface{}) [][][
 // InterfaceD4 inserts value in list.
 func InterfaceD4(list [][][][]interface{}, index int, value [][][]interface{}) [][][][]interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]interface{}, lengthNew, lengthNew+lengthNew>>1)
@@ -2559,11 +2559,11 @@ func InterfaceD4(list [][][][]interface{}, index int, value [][][]interface{}) [
 // InterfaceD5 inserts value in list.
 func InterfaceD5(list [][][][][]interface{}, index int, value [][][][]interface{}) [][][][][]interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]interface{}, lengthNew, lengthNew+lengthNew>>1)
@@ -2580,11 +2580,11 @@ func InterfaceD5(list [][][][][]interface{}, index int, value [][][][]interface{
 // InterfaceN inserts values in list.
 func InterfaceN(list []interface{}, index int, values []interface{}) []interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]interface{}, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2600,11 +2600,11 @@ func InterfaceN(list []interface{}, index int, values []interface{}) []interface
 // InterfaceND2 inserts values in list.
 func InterfaceND2(list [][]interface{}, index int, values [][]interface{}) [][]interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]interface{}, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2620,11 +2620,11 @@ func InterfaceND2(list [][]interface{}, index int, values [][]interface{}) [][]i
 // InterfaceND3 inserts values in list.
 func InterfaceND3(list [][][]interface{}, index int, values [][][]interface{}) [][][]interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]interface{}, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2640,11 +2640,11 @@ func InterfaceND3(list [][][]interface{}, index int, values [][][]interface{}) [
 // InterfaceND4 inserts values in list.
 func InterfaceND4(list [][][][]interface{}, index int, values [][][][]interface{}) [][][][]interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]interface{}, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2660,11 +2660,11 @@ func InterfaceND4(list [][][][]interface{}, index int, values [][][][]interface{
 // InterfaceND5 inserts values in list.
 func InterfaceND5(list [][][][][]interface{}, index int, values [][][][][]interface{}) [][][][][]interface{} {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]interface{}, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2680,11 +2680,11 @@ func InterfaceND5(list [][][][][]interface{}, index int, values [][][][][]interf
 // Pointer inserts value in list.
 func Pointer(list []unsafe.Pointer, index int, value unsafe.Pointer) []unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
@@ -2701,11 +2701,11 @@ func Pointer(list []unsafe.Pointer, index int, value unsafe.Pointer) []unsafe.Po
 // PointerD2 inserts value in list.
 func PointerD2(list [][]unsafe.Pointer, index int, value []unsafe.Pointer) [][]unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
@@ -2722,11 +2722,11 @@ func PointerD2(list [][]unsafe.Pointer, index int, value []unsafe.Pointer) [][]u
 // PointerD3 inserts value in list.
 func PointerD3(list [][][]unsafe.Pointer, index int, value [][]unsafe.Pointer) [][][]unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
@@ -2743,11 +2743,11 @@ func PointerD3(list [][][]unsafe.Pointer, index int, value [][]unsafe.Pointer) [
 // PointerD4 inserts value in list.
 func PointerD4(list [][][][]unsafe.Pointer, index int, value [][][]unsafe.Pointer) [][][][]unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
@@ -2764,11 +2764,11 @@ func PointerD4(list [][][][]unsafe.Pointer, index int, value [][][]unsafe.Pointe
 // PointerD5 inserts value in list.
 func PointerD5(list [][][][][]unsafe.Pointer, index int, value [][][][]unsafe.Pointer) [][][][][]unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
@@ -2785,11 +2785,11 @@ func PointerD5(list [][][][][]unsafe.Pointer, index int, value [][][][]unsafe.Po
 // PointerN inserts values in list.
 func PointerN(list []unsafe.Pointer, index int, values []unsafe.Pointer) []unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2805,11 +2805,11 @@ func PointerN(list []unsafe.Pointer, index int, values []unsafe.Pointer) []unsaf
 // PointerND2 inserts values in list.
 func PointerND2(list [][]unsafe.Pointer, index int, values [][]unsafe.Pointer) [][]unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2825,11 +2825,11 @@ func PointerND2(list [][]unsafe.Pointer, index int, values [][]unsafe.Pointer) [
 // PointerND3 inserts values in list.
 func PointerND3(list [][][]unsafe.Pointer, index int, values [][][]unsafe.Pointer) [][][]unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2845,11 +2845,11 @@ func PointerND3(list [][][]unsafe.Pointer, index int, values [][][]unsafe.Pointe
 // PointerND4 inserts values in list.
 func PointerND4(list [][][][]unsafe.Pointer, index int, values [][][][]unsafe.Pointer) [][][][]unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2865,11 +2865,11 @@ func PointerND4(list [][][][]unsafe.Pointer, index int, values [][][][]unsafe.Po
 // PointerND5 inserts values in list.
 func PointerND5(list [][][][][]unsafe.Pointer, index int, values [][][][][]unsafe.Pointer) [][][][][]unsafe.Pointer {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]unsafe.Pointer, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -2885,11 +2885,11 @@ func PointerND5(list [][][][][]unsafe.Pointer, index int, values [][][][][]unsaf
 // Rune inserts value in list.
 func Rune(list []rune, index int, value rune) []rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]rune, lengthNew, lengthNew+lengthNew>>1)
@@ -2906,11 +2906,11 @@ func Rune(list []rune, index int, value rune) []rune {
 // RuneD2 inserts value in list.
 func RuneD2(list [][]rune, index int, value []rune) [][]rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]rune, lengthNew, lengthNew+lengthNew>>1)
@@ -2927,11 +2927,11 @@ func RuneD2(list [][]rune, index int, value []rune) [][]rune {
 // RuneD3 inserts value in list.
 func RuneD3(list [][][]rune, index int, value [][]rune) [][][]rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]rune, lengthNew, lengthNew+lengthNew>>1)
@@ -2948,11 +2948,11 @@ func RuneD3(list [][][]rune, index int, value [][]rune) [][][]rune {
 // RuneD4 inserts value in list.
 func RuneD4(list [][][][]rune, index int, value [][][]rune) [][][][]rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]rune, lengthNew, lengthNew+lengthNew>>1)
@@ -2969,11 +2969,11 @@ func RuneD4(list [][][][]rune, index int, value [][][]rune) [][][][]rune {
 // RuneD5 inserts value in list.
 func RuneD5(list [][][][][]rune, index int, value [][][][]rune) [][][][][]rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]rune, lengthNew, lengthNew+lengthNew>>1)
@@ -2990,11 +2990,11 @@ func RuneD5(list [][][][][]rune, index int, value [][][][]rune) [][][][][]rune {
 // RuneN inserts values in list.
 func RuneN(list []rune, index int, values []rune) []rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]rune, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3010,11 +3010,11 @@ func RuneN(list []rune, index int, values []rune) []rune {
 // RuneND2 inserts values in list.
 func RuneND2(list [][]rune, index int, values [][]rune) [][]rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]rune, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3030,11 +3030,11 @@ func RuneND2(list [][]rune, index int, values [][]rune) [][]rune {
 // RuneND3 inserts values in list.
 func RuneND3(list [][][]rune, index int, values [][][]rune) [][][]rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]rune, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3050,11 +3050,11 @@ func RuneND3(list [][][]rune, index int, values [][][]rune) [][][]rune {
 // RuneND4 inserts values in list.
 func RuneND4(list [][][][]rune, index int, values [][][][]rune) [][][][]rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]rune, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3070,11 +3070,11 @@ func RuneND4(list [][][][]rune, index int, values [][][][]rune) [][][][]rune {
 // RuneND5 inserts values in list.
 func RuneND5(list [][][][][]rune, index int, values [][][][][]rune) [][][][][]rune {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]rune, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3090,11 +3090,11 @@ func RuneND5(list [][][][][]rune, index int, values [][][][][]rune) [][][][][]ru
 // String inserts value in list.
 func String(list []string, index int, value string) []string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]string, lengthNew, lengthNew+lengthNew>>1)
@@ -3111,11 +3111,11 @@ func String(list []string, index int, value string) []string {
 // StringD2 inserts value in list.
 func StringD2(list [][]string, index int, value []string) [][]string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]string, lengthNew, lengthNew+lengthNew>>1)
@@ -3132,11 +3132,11 @@ func StringD2(list [][]string, index int, value []string) [][]string {
 // StringD3 inserts value in list.
 func StringD3(list [][][]string, index int, value [][]string) [][][]string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]string, lengthNew, lengthNew+lengthNew>>1)
@@ -3153,11 +3153,11 @@ func StringD3(list [][][]string, index int, value [][]string) [][][]string {
 // StringD4 inserts value in list.
 func StringD4(list [][][][]string, index int, value [][][]string) [][][][]string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]string, lengthNew, lengthNew+lengthNew>>1)
@@ -3174,11 +3174,11 @@ func StringD4(list [][][][]string, index int, value [][][]string) [][][][]string
 // StringD5 inserts value in list.
 func StringD5(list [][][][][]string, index int, value [][][][]string) [][][][][]string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]string, lengthNew, lengthNew+lengthNew>>1)
@@ -3195,11 +3195,11 @@ func StringD5(list [][][][][]string, index int, value [][][][]string) [][][][][]
 // StringN inserts values in list.
 func StringN(list []string, index int, values []string) []string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]string, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3215,11 +3215,11 @@ func StringN(list []string, index int, values []string) []string {
 // StringND2 inserts values in list.
 func StringND2(list [][]string, index int, values [][]string) [][]string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]string, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3235,11 +3235,11 @@ func StringND2(list [][]string, index int, values [][]string) [][]string {
 // StringND3 inserts values in list.
 func StringND3(list [][][]string, index int, values [][][]string) [][][]string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]string, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3255,11 +3255,11 @@ func StringND3(list [][][]string, index int, values [][][]string) [][][]string {
 // StringND4 inserts values in list.
 func StringND4(list [][][][]string, index int, values [][][][]string) [][][][]string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]string, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3275,11 +3275,11 @@ func StringND4(list [][][][]string, index int, values [][][][]string) [][][][]st
 // StringND5 inserts values in list.
 func StringND5(list [][][][][]string, index int, values [][][][][]string) [][][][][]string {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]string, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3295,11 +3295,11 @@ func StringND5(list [][][][][]string, index int, values [][][][][]string) [][][]
 // UInt inserts value in list.
 func UInt(list []uint, index int, value uint) []uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]uint, lengthNew, lengthNew+lengthNew>>1)
@@ -3316,11 +3316,11 @@ func UInt(list []uint, index int, value uint) []uint {
 // UIntD2 inserts value in list.
 func UIntD2(list [][]uint, index int, value []uint) [][]uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]uint, lengthNew, lengthNew+lengthNew>>1)
@@ -3337,11 +3337,11 @@ func UIntD2(list [][]uint, index int, value []uint) [][]uint {
 // UIntD3 inserts value in list.
 func UIntD3(list [][][]uint, index int, value [][]uint) [][][]uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]uint, lengthNew, lengthNew+lengthNew>>1)
@@ -3358,11 +3358,11 @@ func UIntD3(list [][][]uint, index int, value [][]uint) [][][]uint {
 // UIntD4 inserts value in list.
 func UIntD4(list [][][][]uint, index int, value [][][]uint) [][][][]uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]uint, lengthNew, lengthNew+lengthNew>>1)
@@ -3379,11 +3379,11 @@ func UIntD4(list [][][][]uint, index int, value [][][]uint) [][][][]uint {
 // UIntD5 inserts value in list.
 func UIntD5(list [][][][][]uint, index int, value [][][][]uint) [][][][][]uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]uint, lengthNew, lengthNew+lengthNew>>1)
@@ -3400,11 +3400,11 @@ func UIntD5(list [][][][][]uint, index int, value [][][][]uint) [][][][][]uint {
 // UIntN inserts values in list.
 func UIntN(list []uint, index int, values []uint) []uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]uint, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3420,11 +3420,11 @@ func UIntN(list []uint, index int, values []uint) []uint {
 // UIntND2 inserts values in list.
 func UIntND2(list [][]uint, index int, values [][]uint) [][]uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]uint, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3440,11 +3440,11 @@ func UIntND2(list [][]uint, index int, values [][]uint) [][]uint {
 // UIntND3 inserts values in list.
 func UIntND3(list [][][]uint, index int, values [][][]uint) [][][]uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]uint, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3460,11 +3460,11 @@ func UIntND3(list [][][]uint, index int, values [][][]uint) [][][]uint {
 // UIntND4 inserts values in list.
 func UIntND4(list [][][][]uint, index int, values [][][][]uint) [][][][]uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]uint, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3480,11 +3480,11 @@ func UIntND4(list [][][][]uint, index int, values [][][][]uint) [][][][]uint {
 // UIntND5 inserts values in list.
 func UIntND5(list [][][][][]uint, index int, values [][][][][]uint) [][][][][]uint {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]uint, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3500,11 +3500,11 @@ func UIntND5(list [][][][][]uint, index int, values [][][][][]uint) [][][][][]ui
 // UInt8 inserts value in list.
 func UInt8(list []uint8, index int, value uint8) []uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]uint8, lengthNew, lengthNew+lengthNew>>1)
@@ -3521,11 +3521,11 @@ func UInt8(list []uint8, index int, value uint8) []uint8 {
 // UInt8D2 inserts value in list.
 func UInt8D2(list [][]uint8, index int, value []uint8) [][]uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]uint8, lengthNew, lengthNew+lengthNew>>1)
@@ -3542,11 +3542,11 @@ func UInt8D2(list [][]uint8, index int, value []uint8) [][]uint8 {
 // UInt8D3 inserts value in list.
 func UInt8D3(list [][][]uint8, index int, value [][]uint8) [][][]uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]uint8, lengthNew, lengthNew+lengthNew>>1)
@@ -3563,11 +3563,11 @@ func UInt8D3(list [][][]uint8, index int, value [][]uint8) [][][]uint8 {
 // UInt8D4 inserts value in list.
 func UInt8D4(list [][][][]uint8, index int, value [][][]uint8) [][][][]uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]uint8, lengthNew, lengthNew+lengthNew>>1)
@@ -3584,11 +3584,11 @@ func UInt8D4(list [][][][]uint8, index int, value [][][]uint8) [][][][]uint8 {
 // UInt8D5 inserts value in list.
 func UInt8D5(list [][][][][]uint8, index int, value [][][][]uint8) [][][][][]uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]uint8, lengthNew, lengthNew+lengthNew>>1)
@@ -3605,11 +3605,11 @@ func UInt8D5(list [][][][][]uint8, index int, value [][][][]uint8) [][][][][]uin
 // UInt8N inserts values in list.
 func UInt8N(list []uint8, index int, values []uint8) []uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]uint8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3625,11 +3625,11 @@ func UInt8N(list []uint8, index int, values []uint8) []uint8 {
 // UInt8ND2 inserts values in list.
 func UInt8ND2(list [][]uint8, index int, values [][]uint8) [][]uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]uint8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3645,11 +3645,11 @@ func UInt8ND2(list [][]uint8, index int, values [][]uint8) [][]uint8 {
 // UInt8ND3 inserts values in list.
 func UInt8ND3(list [][][]uint8, index int, values [][][]uint8) [][][]uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]uint8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3665,11 +3665,11 @@ func UInt8ND3(list [][][]uint8, index int, values [][][]uint8) [][][]uint8 {
 // UInt8ND4 inserts values in list.
 func UInt8ND4(list [][][][]uint8, index int, values [][][][]uint8) [][][][]uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]uint8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3685,11 +3685,11 @@ func UInt8ND4(list [][][][]uint8, index int, values [][][][]uint8) [][][][]uint8
 // UInt8ND5 inserts values in list.
 func UInt8ND5(list [][][][][]uint8, index int, values [][][][][]uint8) [][][][][]uint8 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]uint8, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3705,11 +3705,11 @@ func UInt8ND5(list [][][][][]uint8, index int, values [][][][][]uint8) [][][][][
 // UInt16 inserts value in list.
 func UInt16(list []uint16, index int, value uint16) []uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]uint16, lengthNew, lengthNew+lengthNew>>1)
@@ -3726,11 +3726,11 @@ func UInt16(list []uint16, index int, value uint16) []uint16 {
 // UInt16D2 inserts value in list.
 func UInt16D2(list [][]uint16, index int, value []uint16) [][]uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]uint16, lengthNew, lengthNew+lengthNew>>1)
@@ -3747,11 +3747,11 @@ func UInt16D2(list [][]uint16, index int, value []uint16) [][]uint16 {
 // UInt16D3 inserts value in list.
 func UInt16D3(list [][][]uint16, index int, value [][]uint16) [][][]uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]uint16, lengthNew, lengthNew+lengthNew>>1)
@@ -3768,11 +3768,11 @@ func UInt16D3(list [][][]uint16, index int, value [][]uint16) [][][]uint16 {
 // UInt16D4 inserts value in list.
 func UInt16D4(list [][][][]uint16, index int, value [][][]uint16) [][][][]uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]uint16, lengthNew, lengthNew+lengthNew>>1)
@@ -3789,11 +3789,11 @@ func UInt16D4(list [][][][]uint16, index int, value [][][]uint16) [][][][]uint16
 // UInt16D5 inserts value in list.
 func UInt16D5(list [][][][][]uint16, index int, value [][][][]uint16) [][][][][]uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]uint16, lengthNew, lengthNew+lengthNew>>1)
@@ -3810,11 +3810,11 @@ func UInt16D5(list [][][][][]uint16, index int, value [][][][]uint16) [][][][][]
 // UInt16N inserts values in list.
 func UInt16N(list []uint16, index int, values []uint16) []uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]uint16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3830,11 +3830,11 @@ func UInt16N(list []uint16, index int, values []uint16) []uint16 {
 // UInt16ND2 inserts values in list.
 func UInt16ND2(list [][]uint16, index int, values [][]uint16) [][]uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]uint16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3850,11 +3850,11 @@ func UInt16ND2(list [][]uint16, index int, values [][]uint16) [][]uint16 {
 // UInt16ND3 inserts values in list.
 func UInt16ND3(list [][][]uint16, index int, values [][][]uint16) [][][]uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]uint16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3870,11 +3870,11 @@ func UInt16ND3(list [][][]uint16, index int, values [][][]uint16) [][][]uint16 {
 // UInt16ND4 inserts values in list.
 func UInt16ND4(list [][][][]uint16, index int, values [][][][]uint16) [][][][]uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]uint16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3890,11 +3890,11 @@ func UInt16ND4(list [][][][]uint16, index int, values [][][][]uint16) [][][][]ui
 // UInt16ND5 inserts values in list.
 func UInt16ND5(list [][][][][]uint16, index int, values [][][][][]uint16) [][][][][]uint16 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]uint16, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -3910,11 +3910,11 @@ func UInt16ND5(list [][][][][]uint16, index int, values [][][][][]uint16) [][][]
 // UInt32 inserts value in list.
 func UInt32(list []uint32, index int, value uint32) []uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]uint32, lengthNew, lengthNew+lengthNew>>1)
@@ -3931,11 +3931,11 @@ func UInt32(list []uint32, index int, value uint32) []uint32 {
 // UInt32D2 inserts value in list.
 func UInt32D2(list [][]uint32, index int, value []uint32) [][]uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]uint32, lengthNew, lengthNew+lengthNew>>1)
@@ -3952,11 +3952,11 @@ func UInt32D2(list [][]uint32, index int, value []uint32) [][]uint32 {
 // UInt32D3 inserts value in list.
 func UInt32D3(list [][][]uint32, index int, value [][]uint32) [][][]uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]uint32, lengthNew, lengthNew+lengthNew>>1)
@@ -3973,11 +3973,11 @@ func UInt32D3(list [][][]uint32, index int, value [][]uint32) [][][]uint32 {
 // UInt32D4 inserts value in list.
 func UInt32D4(list [][][][]uint32, index int, value [][][]uint32) [][][][]uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]uint32, lengthNew, lengthNew+lengthNew>>1)
@@ -3994,11 +3994,11 @@ func UInt32D4(list [][][][]uint32, index int, value [][][]uint32) [][][][]uint32
 // UInt32D5 inserts value in list.
 func UInt32D5(list [][][][][]uint32, index int, value [][][][]uint32) [][][][][]uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]uint32, lengthNew, lengthNew+lengthNew>>1)
@@ -4015,11 +4015,11 @@ func UInt32D5(list [][][][][]uint32, index int, value [][][][]uint32) [][][][][]
 // UInt32N inserts values in list.
 func UInt32N(list []uint32, index int, values []uint32) []uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]uint32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4035,11 +4035,11 @@ func UInt32N(list []uint32, index int, values []uint32) []uint32 {
 // UInt32ND2 inserts values in list.
 func UInt32ND2(list [][]uint32, index int, values [][]uint32) [][]uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]uint32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4055,11 +4055,11 @@ func UInt32ND2(list [][]uint32, index int, values [][]uint32) [][]uint32 {
 // UInt32ND3 inserts values in list.
 func UInt32ND3(list [][][]uint32, index int, values [][][]uint32) [][][]uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]uint32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4075,11 +4075,11 @@ func UInt32ND3(list [][][]uint32, index int, values [][][]uint32) [][][]uint32 {
 // UInt32ND4 inserts values in list.
 func UInt32ND4(list [][][][]uint32, index int, values [][][][]uint32) [][][][]uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]uint32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4095,11 +4095,11 @@ func UInt32ND4(list [][][][]uint32, index int, values [][][][]uint32) [][][][]ui
 // UInt32ND5 inserts values in list.
 func UInt32ND5(list [][][][][]uint32, index int, values [][][][][]uint32) [][][][][]uint32 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]uint32, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4115,11 +4115,11 @@ func UInt32ND5(list [][][][][]uint32, index int, values [][][][][]uint32) [][][]
 // UInt64 inserts value in list.
 func UInt64(list []uint64, index int, value uint64) []uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([]uint64, lengthNew, lengthNew+lengthNew>>1)
@@ -4136,11 +4136,11 @@ func UInt64(list []uint64, index int, value uint64) []uint64 {
 // UInt64D2 inserts value in list.
 func UInt64D2(list [][]uint64, index int, value []uint64) [][]uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][]uint64, lengthNew, lengthNew+lengthNew>>1)
@@ -4157,11 +4157,11 @@ func UInt64D2(list [][]uint64, index int, value []uint64) [][]uint64 {
 // UInt64D3 inserts value in list.
 func UInt64D3(list [][][]uint64, index int, value [][]uint64) [][][]uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][]uint64, lengthNew, lengthNew+lengthNew>>1)
@@ -4178,11 +4178,11 @@ func UInt64D3(list [][][]uint64, index int, value [][]uint64) [][][]uint64 {
 // UInt64D4 inserts value in list.
 func UInt64D4(list [][][][]uint64, index int, value [][][]uint64) [][][][]uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][]uint64, lengthNew, lengthNew+lengthNew>>1)
@@ -4199,11 +4199,11 @@ func UInt64D4(list [][][][]uint64, index int, value [][][]uint64) [][][][]uint64
 // UInt64D5 inserts value in list.
 func UInt64D5(list [][][][][]uint64, index int, value [][][][]uint64) [][][][][]uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + 1
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+1:], list[index:lengthNew-1])
+			copy(listExt[index+1:], list[index:])
 			listExt[index] = value
 		} else {
 			listExt = make([][][][][]uint64, lengthNew, lengthNew+lengthNew>>1)
@@ -4220,11 +4220,11 @@ func UInt64D5(list [][][][][]uint64, index int, value [][][][]uint64) [][][][][]
 // UInt64N inserts values in list.
 func UInt64N(list []uint64, index int, values []uint64) []uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([]uint64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4240,11 +4240,11 @@ func UInt64N(list []uint64, index int, values []uint64) []uint64 {
 // UInt64ND2 inserts values in list.
 func UInt64ND2(list [][]uint64, index int, values [][]uint64) [][]uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][]uint64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4260,11 +4260,11 @@ func UInt64ND2(list [][]uint64, index int, values [][]uint64) [][]uint64 {
 // UInt64ND3 inserts values in list.
 func UInt64ND3(list [][][]uint64, index int, values [][][]uint64) [][][]uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][]uint64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4280,11 +4280,11 @@ func UInt64ND3(list [][][]uint64, index int, values [][][]uint64) [][][]uint64 {
 // UInt64ND4 inserts values in list.
 func UInt64ND4(list [][][][]uint64, index int, values [][][][]uint64) [][][][]uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][]uint64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
@@ -4300,11 +4300,11 @@ func UInt64ND4(list [][][][]uint64, index int, values [][][][]uint64) [][][][]ui
 // UInt64ND5 inserts values in list.
 func UInt64ND5(list [][][][][]uint64, index int, values [][][][][]uint64) [][][][][]uint64 {
 	listExt := list
-	if len(list) > 0 && index < len(list) {
+	if index < len(list) {
 		lengthNew := len(list) + len(values)
 		if lengthNew <= cap(list) {
 			listExt = list[:lengthNew]
-			copy(listExt[index+len(values):], list[index:lengthNew-len(values)])
+			copy(listExt[index+len(values):], list[index:])
 		} else {
 			listExt = make([][][][][]uint64, lengthNew, lengthNew+lengthNew>>1)
 			copy(listExt, list[:index])
