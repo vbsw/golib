@@ -13,5 +13,5 @@ queue is distributed under the Boost Software License, version 1.0. (See accompa
 queue is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the Boost Software License for more details.
 
 ## References
-- https://golang.org/doc/install
+- https://go.dev/doc/install
 - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git

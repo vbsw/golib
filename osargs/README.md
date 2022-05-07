@@ -78,5 +78,5 @@ Command line:
 	$ processing from 1 to 10
 
 ## References
-- https://golang.org/doc/install
+- https://go.dev/doc/install
 - https://git-scm.com/book/en/v2/Getting-Started-Installing-Git
