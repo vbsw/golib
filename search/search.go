@@ -17,32 +17,44 @@ import (
 // is true, if element is in list, otherwise false and the index returned is the
 // insert index. Elements in list must be unique and sorted from false to true.
 func Bool(list []bool, element bool) (int, bool) {
-	if len(list) > 0 {
-		if !list[0] {
-			if !element {
-				return 0, true
+	left := 0
+	right := len(list) - 1
+	for left <= right {
+		middle := (left + right) / 2
+		value := list[middle]
+		if value != element {
+			if element {
+				left = middle + 1
+			} else {
+				right = middle - 1
 			}
-			return 1, len(list) >= 2
+		} else {
+			return middle, true
 		}
-		return 0, element
 	}
-	return 0, false
+	return left, false
 }
 
 // BoolDesc searches element in list and returns its index. Second return value
 // is true, if element is in list, otherwise false and the index returned is the
 // insert index. Elements in list must be unique and sorted from true to false.
 func BoolDesc(list []bool, element bool) (int, bool) {
-	if len(list) > 0 {
-		if list[0] {
+	left := 0
+	right := len(list) - 1
+	for left <= right {
+		middle := (left + right) / 2
+		value := list[middle]
+		if value != element {
 			if element {
-				return 0, true
+				right = middle - 1
+			} else {
+				left = middle + 1
 			}
-			return 1, len(list) >= 2
+		} else {
+			return middle, true
 		}
-		return 0, !element
 	}
-	return 0, false
+	return left, false
 }
 
 // BoolRng searches element in list and returns matching start and end index. Start index
