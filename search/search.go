@@ -5,7 +5,7 @@
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-// Package search provides the "binary search" function for slices of basic types.
+// Package search provides binary search for slices of basic type.
 package search
 
 import (
