@@ -5,7 +5,7 @@
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-// Package insert inserts data into slices of basic types.
+// Package insert inserts data in slices of basic type.
 package insert
 
 import (
