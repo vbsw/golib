@@ -1,6 +1,6 @@
 # search
 
-[![GoDoc](https://godoc.org/github.com/vbsw/golib/search?status.svg)](https://godoc.org/github.com/vbsw/golib/search) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/search)](https://goreportcard.com/report/github.com/vbsw/golib/search) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
+[![Go Reference](https://pkg.go.dev/badge/github.com/vbsw/golib/search.svg)](https://pkg.go.dev/github.com/vbsw/golib/search) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/search)](https://goreportcard.com/report/github.com/vbsw/golib/search) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
 ## About
 search is a package for Go providing binary search for slices of basic type. It is published on <https://github.com/vbsw/golib/search> and <https://gitlab.com/vbsw/golib/search>.

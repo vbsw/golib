@@ -1,6 +1,6 @@
 # osargs
 
-[![GoDoc](https://godoc.org/github.com/vbsw/golib/osargs?status.svg)](https://godoc.org/github.com/vbsw/golib/osargs) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/osargs)](https://goreportcard.com/report/github.com/vbsw/golib/osargs) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
+[![Go Reference](https://pkg.go.dev/badge/github.com/vbsw/golib/osargs.svg)](https://pkg.go.dev/github.com/vbsw/golib/osargs) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/osargs)](https://goreportcard.com/report/github.com/vbsw/golib/osargs) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
 ## About
 osargs is a package for Go to parse command line arguments. It is published on <https://github.com/vbsw/golib/osargs> and <https://gitlab.com/vbsw/golib/osargs>.
