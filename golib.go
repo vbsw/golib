@@ -5,5 +5,5 @@
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-// Package golib contains various common functions for Go.
+// Package golib provides packages for common use.
 package golib
