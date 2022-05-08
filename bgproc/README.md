@@ -1,6 +1,6 @@
 # bgproc
 
-[![GoDoc](https://godoc.org/github.com/vbsw/golib/bgproc?status.svg)](https://godoc.org/github.com/vbsw/golib/bgproc) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/bgproc)](https://goreportcard.com/report/github.com/vbsw/golib/bgproc) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
+[![Go Reference](https://pkg.go.dev/badge/github.com/vbsw/golib/bgproc.svg)](https://pkg.go.dev/github.com/vbsw/golib/bgproc) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/bgproc)](https://goreportcard.com/report/github.com/vbsw/golib/bgproc) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
 ## About
 bgproc is a package for Go to start a process in "background", i.e. as a from terminal detached process. (It is encouraged to use something else than this, like services on Windows or daemons on Linux.) bgproc is published on <https://github.com/vbsw/golib/bgproc> and <https://gitlab.com/vbsw/golib/bgproc>.
