@@ -3,7 +3,7 @@
 [![GoDoc](https://godoc.org/github.com/vbsw/golib?status.svg)](https://godoc.org/github.com/vbsw/golib) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib)](https://goreportcard.com/report/github.com/vbsw/golib) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
 ## About
-golib is a package for Go containing various packages for common use. It is published on <https://github.com/vbsw/golib> and <https://gitlab.com/vbsw/golib>.
+golib is a package for Go providing packages for common use. It is published on <https://github.com/vbsw/golib> and <https://gitlab.com/vbsw/golib>.
 
 **bgproc** - start a process in "background", i.e. as a from terminal detached process  
 **callback** - map objects to ids; this allows to manage callbacks from C to Go  
