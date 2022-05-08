@@ -3,7 +3,7 @@
 [![GoDoc](https://godoc.org/github.com/vbsw/golib/queue?status.svg)](https://godoc.org/github.com/vbsw/golib/queue) [![Go Report Card](https://goreportcard.com/badge/github.com/vbsw/golib/queue)](https://goreportcard.com/report/github.com/vbsw/golib/queue) [![Stability: Experimental](https://masterminds.github.io/stability/experimental.svg)](https://masterminds.github.io/stability/experimental.html)
 
 ## About
-queue is a package for Go providing a simple First-In-First-Out queue. It is published on <https://github.com/vbsw/golib/queue>.
+queue is a package for Go providing a simple First-In-First-Out queue. It is published on <https://github.com/vbsw/golib/queue> and <https://gitlab.com/vbsw/golib/queue>.
 
 ## Copyright
 Copyright 2022, Vitali Baumtrok (vbsw@mailbox.org).
