@@ -70,7 +70,7 @@ func (que *Queue) Put(element interface{}) {
 	que.data[index] = element
 }
 
-// PutPrio inserts element into queue. The position of inserted element
+// PutPrio inserts element in queue. The position of inserted element
 // is determined by parameter prio. A low prio number means hight priority.
 // Element is put before other elements with lower priority, or
 // after elements with same or higher priority.
@@ -94,7 +94,7 @@ func (que *Queue) PutAll(elements ...interface{}) {
 	}
 }
 
-// PutAllPrio inserts elements into queue. The position of inserted elements
+// PutAllPrio inserts elements in queue. The position of inserted elements
 // is determined by parameter prio. A low prio number means hight priority.
 // Elements are put before other elements with lower priority, or
 // after elements with same or higher priority.
@@ -539,7 +539,7 @@ func (que *TypedQueue) Put(element TypedElement) {
 	element.OnQueuePut()
 }
 
-// PutPrio inserts element into queue. Function OnQueuePut is called
+// PutPrio inserts element in queue. Function OnQueuePut is called
 // on element after it has been added to the queue. The position of inserted element
 // is determined by parameter prio. A low prio number means hight priority.
 // Element is put before other elements with lower priority, or
@@ -569,7 +569,7 @@ func (que *TypedQueue) PutAll(elements ...TypedElement) {
 	}
 }
 
-// PutAllPrio inserts elements into queue. Function OnQueuePut is called
+// PutAllPrio inserts elements in queue. Function OnQueuePut is called
 // on every element after they have been added to the queue. The position of inserted elements
 // is determined by parameter prio. A low prio number means hight priority.
 // Elements are put before other elements with lower priority, or
