@@ -32,16 +32,17 @@ func FileHasAll(path string, buffer []byte, terms [][]byte) (bool, error) {
 			buffer = ensureBuffer(buffer, lengthMax)
 			nRead, err = file.Read(buffer)
 			for err == nil {
-				hasAll := bufferHasAll(buffer, termsCheck)
-				if hasAll {
-					return true, nil
-				} else if nRead == len(buffer) {
-					nProcessed := len(buffer) - lengthMax
-					copy(buffer, buffer[nProcessed:])
-					nRead, err = file.Read(buffer[lengthMax:])
-					nRead += lengthMax
+				if nRead < len(buffer) {
+					return bufferHasAllFinal(buffer, termsCheck), nil
 				} else {
-					return false, nil
+					if bufferHasAll(buffer, termsCheck) {
+						return true, nil
+					} else {
+						nProcessed := len(buffer) - lengthMax
+						copy(buffer, buffer[nProcessed:])
+						nRead, err = file.Read(buffer[lengthMax:])
+						nRead += lengthMax
+					}
 				}
 			}
 			if err == io.EOF {
@@ -65,8 +66,7 @@ func FileHasAny(path string, buffer []byte, terms [][]byte) (bool, error) {
 			buffer = ensureBuffer(buffer, lengthMax)
 			nRead, err = file.Read(buffer)
 			for err == nil {
-				hasAny := bufferHasAny(buffer, termsCheck)
-				if hasAny {
+				if bufferHasAny(buffer, termsCheck) {
 					return true, nil
 				} else if nRead == len(buffer) {
 					nProcessed := len(buffer) - lengthMax
@@ -84,6 +84,16 @@ func FileHasAny(path string, buffer []byte, terms [][]byte) (bool, error) {
 		return false, err
 	}
 	return false, nil
+}
+
+// bufferHasAllFinal returns true, if buffer contains all terms. Does not check all terms.
+func bufferHasAllFinal(buffer []byte, terms [][]byte) bool {
+	for _, term := range terms {
+		if len(term) > 0 && !pkgbytes.Contains(buffer, term) {
+			return false
+		}
+	}
+	return true
 }
 
 // bufferHasAll returns true, if buffer contains all terms.
