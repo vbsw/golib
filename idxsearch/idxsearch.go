@@ -5,8 +5,8 @@
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-// Package search provides the "binary search" function for slices of basic types.
-package search
+// Package idxsearch provides indexed binary search for slices of basic type.
+package idxsearch
 
 import (
 	"strings"

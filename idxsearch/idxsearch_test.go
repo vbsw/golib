@@ -5,7 +5,7 @@
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-package search
+package idxsearch
 
 import (
 	"testing"
