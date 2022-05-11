@@ -14,26 +14,14 @@ import (
 	"os"
 )
 
-// FileExists returns true, if file exists. options can be f for file
-// or d for directory.
-func FileExists(path, options string) (bool, error) {
-	info, err := os.Stat(path)
-	var exists bool
-	if info != nil {
-		if err != nil && os.IsNotExist(err) {
-			err = nil
-		} else {
-			beFile, beDirectory := parseOptions(options)
-			isDir := info.IsDir()
-			exists = beFile && !isDir || beDirectory && isDir
-		}
-	} else if err != nil && os.IsNotExist(err) {
-		err = nil
-	}
-	return exists, err
+// FileExists returns true, if file exists.
+func FileExists(path string) bool {
+	_, err := os.Stat(path)
+	return err == nil || !os.IsNotExist(err)
 }
 
-// FileHasAll returns true, if file exists and contains all terms.
+// FileHasAll returns true, if file exists and contains all terms. If terms
+// empty, false is returned.
 func FileHasAll(path string, buffer []byte, terms [][]byte) (bool, error) {
 	termsCheck, lengthMax := termsCheckMax(terms)
 	if lengthMax > 0 {
@@ -45,13 +33,15 @@ func FileHasAll(path string, buffer []byte, terms [][]byte) (bool, error) {
 			nRead, err = file.Read(buffer)
 			for err == nil {
 				hasAll := bufferHasAll(buffer, termsCheck)
-				if !hasAll && nRead == len(buffer) {
+				if hasAll {
+					return true, nil
+				} else if nRead == len(buffer) {
 					nProcessed := len(buffer) - lengthMax
 					copy(buffer, buffer[nProcessed:])
 					nRead, err = file.Read(buffer[lengthMax:])
 					nRead += lengthMax
 				} else {
-					return true, nil
+					return false, nil
 				}
 			}
 			if err == io.EOF {
@@ -63,7 +53,8 @@ func FileHasAll(path string, buffer []byte, terms [][]byte) (bool, error) {
 	return false, nil
 }
 
-// FileHasAny returns true, if file exists and contains any of terms.
+// FileHasAny returns true, if file exists and contains any of terms. If terms
+// empty, false is returned.
 func FileHasAny(path string, buffer []byte, terms [][]byte) (bool, error) {
 	termsCheck, lengthMax := termsCheckMax(terms)
 	if lengthMax > 0 {
@@ -75,13 +66,15 @@ func FileHasAny(path string, buffer []byte, terms [][]byte) (bool, error) {
 			nRead, err = file.Read(buffer)
 			for err == nil {
 				hasAny := bufferHasAny(buffer, termsCheck)
-				if !hasAny && nRead == len(buffer) {
+				if hasAll {
+					return true, nil
+				} else if nRead == len(buffer) {
 					nProcessed := len(buffer) - lengthMax
 					copy(buffer, buffer[nProcessed:])
 					nRead, err = file.Read(buffer[lengthMax:])
 					nRead += lengthMax
 				} else {
-					return true, nil
+					return false, nil
 				}
 			}
 			if err == io.EOF {
