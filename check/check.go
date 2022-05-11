@@ -66,7 +66,7 @@ func FileHasAny(path string, buffer []byte, terms [][]byte) (bool, error) {
 			nRead, err = file.Read(buffer)
 			for err == nil {
 				hasAny := bufferHasAny(buffer, termsCheck)
-				if hasAll {
+				if hasAny {
 					return true, nil
 				} else if nRead == len(buffer) {
 					nProcessed := len(buffer) - lengthMax
