@@ -10,7 +10,7 @@ golib is a package for Go providing packages for common use. It is published on 
 **check** - check files and their content  
 **idxsearch** - indexed binary search for slices of basic type  
 **insert** - insert data in slices of basic type  
-**iter** - iter runs over files process them  
+**iter** - run over files to process them  
 **osargs** - parse command line arguments  
 **queue** - simple First-In-First-Out queue  
 **ref** - convert bytes to string or string to bytes without reallocating data  
