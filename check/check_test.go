@@ -11,49 +11,49 @@ import (
 	"testing"
 )
 
-func TestBufferHasAll(t *testing.T) {
+func TestBufferContainsAll(t *testing.T) {
 	bytes := []byte("Hello, world!")
 	terms := [][]byte{[]byte("llo"), []byte("He"), []byte(", w"), []byte("rld"), []byte("!")}
 	termsCheck := make([][]byte, len(terms))
 	copy(termsCheck, terms)
-	hasAll := bufferHasAll(bytes, termsCheck)
+	hasAll := bufferContainsAll(bytes, termsCheck)
 	if !hasAll {
 		t.Error("not recognized")
 	}
 	terms[1] = []byte("he")
 	copy(termsCheck, terms)
-	hasAll = bufferHasAll(bytes, termsCheck)
+	hasAll = bufferContainsAll(bytes, termsCheck)
 	if hasAll {
 		t.Error("not recognized")
 	}
-	hasAll = bufferHasAll(bytes[1:], termsCheck)
+	hasAll = bufferContainsAll(bytes[1:], termsCheck)
 	copy(termsCheck, terms)
 	if hasAll {
 		t.Error("not recognized")
 	}
-	hasAll = bufferHasAll(bytes[:0], termsCheck)
+	hasAll = bufferContainsAll(bytes[:0], termsCheck)
 	if hasAll {
 		t.Error("not recognized")
 	}
 }
 
-func TestBufferHasAny(t *testing.T) {
+func TestBufferContainsAny(t *testing.T) {
 	bytes := []byte("Hello, world!")
 	terms := [][]byte{[]byte("llo"), []byte("He"), []byte(", w"), []byte("rld"), []byte("!")}
-	hasAny := bufferHasAny(bytes, terms)
+	hasAny := bufferContainsAny(bytes, terms)
 	if !hasAny {
 		t.Error("not recognized")
 	}
 	terms[1] = []byte("he")
-	hasAny = bufferHasAny(bytes, terms)
+	hasAny = bufferContainsAny(bytes, terms)
 	if !hasAny {
 		t.Error("not recognized")
 	}
-	hasAny = bufferHasAny(bytes[1:], terms)
+	hasAny = bufferContainsAny(bytes[1:], terms)
 	if !hasAny {
 		t.Error("not recognized")
 	}
-	hasAny = bufferHasAny(bytes[:0], terms)
+	hasAny = bufferContainsAny(bytes[:0], terms)
 	if hasAny {
 		t.Error("not recognized")
 	}
