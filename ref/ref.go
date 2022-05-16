@@ -14,6 +14,9 @@ import (
 )
 
 // Bytes returns string as byte slice, but without copying the bytes.
+// This is useless, actually. The returned slice has no capacity and
+// can not be sub sliced, then using the index on string to access the
+// bytes works as well.
 func Bytes(str string) []byte {
 	return *(*[]byte)(unsafe.Pointer(&str))
 }
