@@ -33,7 +33,7 @@ func FileContainsAll(path string, buffer []byte, terms [][]byte) (bool, error) {
 			nRead, err = file.Read(buffer)
 			for err == nil {
 				if nRead < len(buffer) {
-					return bufferContainsAllFinal(buffer, termsCheck), nil
+					return bufferContainsAllFinal(buffer[:nRead], termsCheck), nil
 				} else {
 					if bufferContainsAll(buffer, termsCheck) {
 						return true, nil
@@ -66,7 +66,7 @@ func FileContainsAny(path string, buffer []byte, terms [][]byte) (bool, error) {
 			buffer = ensureBuffer(buffer, lengthMax)
 			nRead, err = file.Read(buffer)
 			for err == nil {
-				if bufferContainsAny(buffer, termsCheck) {
+				if bufferContainsAny(buffer[:nRead], termsCheck) {
 					return true, nil
 				} else if nRead == len(buffer) {
 					nProcessed := len(buffer) - lengthMax
