@@ -66,7 +66,7 @@ func (que *Queue) Reset(capacity int) {
 	if capacity > 0 {
 		que.prios = make([]int, capacity)
 		que.data = make([]interface{}, capacity)
-	} else {
+	} else if que.hasAny {
 		if que.indexRead < que.indexWrite {
 			clearData(que.data[que.indexRead:que.indexWrite])
 		} else {
@@ -556,7 +556,7 @@ func (que *TypedQueue) Reset(capacity int) {
 	if capacity > 0 {
 		que.prios = make([]int, capacity)
 		que.data = make([]TypedElement, capacity)
-	} else {
+	} else if que.hasAny {
 		if que.indexRead < que.indexWrite {
 			clearDataTypedElement(que.data[que.indexRead:que.indexWrite])
 		} else {
