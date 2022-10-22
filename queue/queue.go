@@ -5,7 +5,7 @@
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-// Package queue provides a simple First-In-First-Out queue.
+// Package queue provides a simple First-In-First-Out queue. Queue doesn't need to be initialized.
 package queue
 
 const (
@@ -25,7 +25,7 @@ type Queue struct {
 	data       []interface{}
 	indexRead  int
 	indexWrite int
-	empty      bool
+	hasAny     bool
 }
 
 // TypedQueue is a First-In-First-Out buffer for typed elements.
@@ -34,7 +34,7 @@ type TypedQueue struct {
 	data       []TypedElement
 	indexRead  int
 	indexWrite int
-	empty      bool
+	hasAny     bool
 }
 
 // New returns a new queue. If capacity is negative,
@@ -46,7 +46,6 @@ func New(capacity int) *Queue {
 		que.prios = make([]int, capacity)
 		que.data = make([]interface{}, capacity)
 	}
-	que.empty = true
 	return que
 }
 
@@ -59,8 +58,25 @@ func NewTyped(capacity int) *TypedQueue {
 		que.prios = make([]int, capacity)
 		que.data = make([]TypedElement, capacity)
 	}
-	que.empty = true
 	return que
+}
+
+// Reset clears the data and sets size to 0.
+func (que *Queue) Reset(capacity int) {
+	if capacity > 0 {
+		que.prios = make([]int, capacity)
+		que.data = make([]interface{}, capacity)
+	} else {
+		if que.indexRead < que.indexWrite {
+			clearData(que.data[que.indexRead:que.indexWrite])
+		} else {
+			clearData(que.data[que.indexRead:])
+			clearData(que.data[:que.indexWrite])
+		}
+	}
+	que.indexRead = 0
+	que.indexWrite = 0
+	que.hasAny = false
 }
 
 // Put appends element at the end of the queue.
@@ -114,8 +130,9 @@ func (que *Queue) PutAllPrio(prio int, elements ...interface{}) {
 // First removes first element from queue and returns it.
 func (que *Queue) First() interface{} {
 	var data interface{}
-	if !que.empty {
+	if que.hasAny {
 		data = que.data[que.indexRead]
+		que.data[que.indexRead] = nil
 		if que.indexRead+1 != len(que.data) {
 			que.indexRead++
 		} else {
@@ -124,7 +141,7 @@ func (que *Queue) First() interface{} {
 		if que.indexRead == que.indexWrite {
 			que.indexRead = 0
 			que.indexWrite = 0
-			que.empty = true
+			que.hasAny = false
 		}
 	}
 	return data
@@ -133,18 +150,22 @@ func (que *Queue) First() interface{} {
 // All removes all elements from queue and returns them.
 func (que *Queue) All() []interface{} {
 	var data []interface{}
-	if !que.empty {
+	if que.hasAny {
 		if que.indexRead < que.indexWrite {
-			data = make([]interface{}, que.indexWrite-que.indexRead)
-			copy(data, que.data[que.indexRead:que.indexWrite])
+			dataRight := que.data[que.indexRead:que.indexWrite]
+			data = make([]interface{}, len(dataRight))
+			copy(data, dataRight)
+			clearData(dataRight)
 		} else {
 			dataRight := que.data[que.indexRead:]
 			dataLeft := que.data[:que.indexWrite]
 			data = make([]interface{}, len(dataLeft)+len(dataRight))
 			copy(data, dataRight)
 			copy(data[len(dataRight):], dataLeft)
+			clearData(dataRight)
+			clearData(dataLeft)
 		}
-		que.empty = true
+		que.hasAny = false
 	}
 	que.indexRead = 0
 	que.indexWrite = 0
@@ -154,7 +175,7 @@ func (que *Queue) All() []interface{} {
 // Size returns the number of elements in queue.
 func (que *Queue) Size() int {
 	var size int
-	if !que.empty {
+	if que.hasAny {
 		if que.indexRead < que.indexWrite {
 			size = que.indexWrite - que.indexRead
 		} else {
@@ -168,15 +189,7 @@ func (que *Queue) Size() int {
 // index, if data has been reallocated.
 func (que *Queue) prepareCapacity(index, capAdd, prio int) int {
 	indexNew := 0
-	if que.empty {
-		capNew := que.capacityNew(capAdd)
-		if capNew > len(que.data) {
-			que.prios = make([]int, capNew)
-			que.data = make([]interface{}, capNew)
-		}
-		que.indexRead = 0
-		que.indexWrite = capAdd
-	} else {
+	if que.hasAny {
 		if index == que.indexWrite && (que.indexRead != que.indexWrite || que.prios[que.indexWrite] <= prio) {
 			indexNew = que.prepareCapacityApd(capAdd)
 		} else if index == que.indexRead {
@@ -184,11 +197,19 @@ func (que *Queue) prepareCapacity(index, capAdd, prio int) int {
 		} else {
 			indexNew = que.prepareCapacityIns(index, capAdd)
 		}
+	} else {
+		capNew := que.capacityNew(capAdd)
+		if capNew > len(que.data) {
+			que.prios = make([]int, capNew)
+			que.data = make([]interface{}, capNew)
+		}
+		que.indexRead = 0
+		que.indexWrite = capAdd
 	}
 	if que.indexWrite == len(que.data) {
 		que.indexWrite = 0
 	}
-	que.empty = false
+	que.hasAny = true
 	return indexNew
 }
 
@@ -464,7 +485,7 @@ func (que *Queue) moveAllWrap(index, capAdd, capNew int) int {
 // indexInsertion returns index to insert new elements with prio.
 func (que *Queue) indexInsertion(prio int) int {
 	index := que.indexWrite
-	if prio != PrioMin && !que.empty {
+	if prio != PrioMin && que.hasAny {
 		if que.indexRead < que.indexWrite {
 			index = que.indexInsertionFromTo(prio, que.indexRead, que.indexWrite)
 		} else {
@@ -528,6 +549,24 @@ func (que *Queue) setPrio(prio, from, to int) {
 	for i := range prios {
 		prios[i] = prio
 	}
+}
+
+// Reset clears the data and sets size to 0.
+func (que *TypedQueue) Reset(capacity int) {
+	if capacity > 0 {
+		que.prios = make([]int, capacity)
+		que.data = make([]TypedElement, capacity)
+	} else {
+		if que.indexRead < que.indexWrite {
+			clearDataTypedElement(que.data[que.indexRead:que.indexWrite])
+		} else {
+			clearDataTypedElement(que.data[que.indexRead:])
+			clearDataTypedElement(que.data[:que.indexWrite])
+		}
+	}
+	que.indexRead = 0
+	que.indexWrite = 0
+	que.hasAny = false
 }
 
 // Put appends element at the end of the queue. Function OnQueuePut is called
@@ -594,8 +633,9 @@ func (que *TypedQueue) PutAllPrio(prio int, elements ...TypedElement) {
 // on element after it has been removed from the queue.
 func (que *TypedQueue) First() TypedElement {
 	var data TypedElement
-	if !que.empty {
+	if que.hasAny {
 		data = que.data[que.indexRead]
+		que.data[que.indexRead] = nil
 		if que.indexRead+1 != len(que.data) {
 			que.indexRead++
 		} else {
@@ -604,7 +644,7 @@ func (que *TypedQueue) First() TypedElement {
 		if que.indexRead == que.indexWrite {
 			que.indexRead = 0
 			que.indexWrite = 0
-			que.empty = true
+			que.hasAny = false
 		}
 		data.OnQueueRemove()
 	}
@@ -615,18 +655,22 @@ func (que *TypedQueue) First() TypedElement {
 // on every element after they have been removed from the queue.
 func (que *TypedQueue) All() []TypedElement {
 	var data []TypedElement
-	if !que.empty {
+	if que.hasAny {
 		if que.indexRead < que.indexWrite {
-			data = make([]TypedElement, que.indexWrite-que.indexRead)
+			dataRight := que.data[que.indexRead:que.indexWrite]
+			data = make([]TypedElement, len(dataRight))
 			copy(data, que.data[que.indexRead:que.indexWrite])
+			clearDataTypedElement(dataRight)
 		} else {
 			dataRight := que.data[que.indexRead:]
 			dataLeft := que.data[:que.indexWrite]
 			data = make([]TypedElement, len(dataLeft)+len(dataRight))
 			copy(data, dataRight)
 			copy(data[len(dataRight):], dataLeft)
+			clearDataTypedElement(dataRight)
+			clearDataTypedElement(dataLeft)
 		}
-		que.empty = true
+		que.hasAny = false
 	}
 	que.indexRead = 0
 	que.indexWrite = 0
@@ -639,7 +683,7 @@ func (que *TypedQueue) All() []TypedElement {
 // Size returns the number of elements in queue.
 func (que *TypedQueue) Size() int {
 	var size int
-	if !que.empty {
+	if que.hasAny {
 		if que.indexRead < que.indexWrite {
 			size = que.indexWrite - que.indexRead
 		} else {
@@ -653,15 +697,7 @@ func (que *TypedQueue) Size() int {
 // index, if data has been reallocated.
 func (que *TypedQueue) prepareCapacity(index, capAdd, prio int) int {
 	indexNew := 0
-	if que.empty {
-		capNew := que.capacityNew(capAdd)
-		if capNew > len(que.data) {
-			que.prios = make([]int, capNew)
-			que.data = make([]TypedElement, capNew)
-		}
-		que.indexRead = 0
-		que.indexWrite = capAdd
-	} else {
+	if que.hasAny {
 		if index == que.indexWrite && (que.indexRead != que.indexWrite || que.prios[que.indexWrite] <= prio) {
 			indexNew = que.prepareCapacityApd(capAdd)
 		} else if index == que.indexRead {
@@ -669,11 +705,19 @@ func (que *TypedQueue) prepareCapacity(index, capAdd, prio int) int {
 		} else {
 			indexNew = que.prepareCapacityIns(index, capAdd)
 		}
+	} else {
+		capNew := que.capacityNew(capAdd)
+		if capNew > len(que.data) {
+			que.prios = make([]int, capNew)
+			que.data = make([]TypedElement, capNew)
+		}
+		que.indexRead = 0
+		que.indexWrite = capAdd
 	}
 	if que.indexWrite == len(que.data) {
 		que.indexWrite = 0
 	}
-	que.empty = false
+	que.hasAny = true
 	return indexNew
 }
 
@@ -949,7 +993,7 @@ func (que *TypedQueue) moveAllWrap(index, capAdd, capNew int) int {
 // indexInsertion returns index to insert new elements with prio.
 func (que *TypedQueue) indexInsertion(prio int) int {
 	index := que.indexWrite
-	if prio != PrioMin && !que.empty {
+	if prio != PrioMin && que.hasAny {
 		if que.indexRead < que.indexWrite {
 			index = que.indexInsertionFromTo(prio, que.indexRead, que.indexWrite)
 		} else {
@@ -1012,5 +1056,17 @@ func (que *TypedQueue) setPrio(prio, from, to int) {
 	prios := que.prios[from:to]
 	for i := range prios {
 		prios[i] = prio
+	}
+}
+
+func clearData(data []interface{}) {
+	for i := range data {
+		data[i] = nil
+	}
+}
+
+func clearDataTypedElement(data []TypedElement) {
+	for i := range data {
+		data[i] = nil
 	}
 }

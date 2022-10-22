@@ -37,7 +37,7 @@ func TestPutCap(t *testing.T) {
 		t.Error(len(q.data))
 	} else if q.indexRead != q.indexWrite || q.indexRead != 0 {
 		t.Error(len(q.data), q.indexRead, q.indexWrite)
-	} else if q.empty {
+	} else if !q.hasAny {
 		t.Error("queue is marked empty")
 	} else {
 		q.Put(20)
@@ -45,6 +45,30 @@ func TestPutCap(t *testing.T) {
 			t.Error("queue not expanded")
 		} else if q.indexRead != q.indexWrite || q.indexRead != 0 {
 			t.Error(len(q.data), q.indexRead, q.indexWrite)
+		}
+	}
+}
+
+func TestReset(t *testing.T) {
+	q := New(0)
+	q.Put(10)
+	if len(q.data) == 0 {
+		t.Error("queue not initialized")
+	} else if q.indexRead == q.indexWrite {
+		t.Error(len(q.data), q.indexRead, q.indexWrite)
+	} else if q.Size() != 1 {
+		t.Error(q.Size())
+	} else {
+		q.Put(20)
+		q.Reset(0)
+		if len(q.data) == 0 {
+			t.Error("queue not initialized")
+		} else if q.Size() != 0 {
+			t.Error(q.Size())
+		} else if q.indexRead != q.indexWrite {
+			t.Error(len(q.data), q.indexRead, q.indexWrite)
+		} else if q.indexRead != 0 {
+			t.Error(q.indexRead)
 		}
 	}
 }
@@ -80,7 +104,7 @@ func TestPutTwo(t *testing.T) {
 	q := New(10)
 	q.indexRead = 7
 	q.indexWrite = 8
-	q.empty = false
+	q.hasAny = true
 	q.Put(10)
 	if q.indexRead != 7 {
 		t.Error(q.indexRead)
@@ -108,7 +132,7 @@ func TestPutTwoSize(t *testing.T) {
 	q := New(10)
 	q.indexRead = 7
 	q.indexWrite = 8
-	q.empty = false
+	q.hasAny = true
 	if q.Size() != 1 {
 		t.Error(q.Size())
 	}
@@ -138,7 +162,7 @@ func TestFirst(t *testing.T) {
 	q := New(10)
 	q.indexRead = 7
 	q.indexWrite = 8
-	q.empty = false
+	q.hasAny = true
 	if q.Size() != 1 {
 		t.Error(q.Size())
 	}
@@ -178,7 +202,7 @@ func TestFirstTwo(t *testing.T) {
 	}
 	arr := []int{10, 20, 30, 40, 50}
 	q.indexRead = 7
-	q.empty = false
+	q.hasAny = true
 	for _, num := range arr {
 		q.Put(num)
 	}
@@ -217,7 +241,7 @@ func TestPutAllTwo(t *testing.T) {
 	q := New(10)
 	q.indexRead = 7
 	q.indexWrite = 8
-	q.empty = false
+	q.hasAny = true
 	q.Put(10)
 	q.Put(20)
 	q.Put(30)
@@ -247,7 +271,7 @@ func TestAll(t *testing.T) {
 	q := New(10)
 	q.indexRead = 7
 	q.indexWrite = 8
-	q.empty = false
+	q.hasAny = true
 	q.PutAll(10, 20, 30)
 	elements := q.All()
 	if q.Size() != 0 {
