@@ -49,7 +49,7 @@ func TestPutCap(t *testing.T) {
 	}
 }
 
-func TestReset(t *testing.T) {
+func TestResetA(t *testing.T) {
 	q := New(0)
 	q.Put(10)
 	if len(q.data) == 0 {
@@ -61,14 +61,41 @@ func TestReset(t *testing.T) {
 	} else {
 		q.Put(20)
 		q.Reset(0)
-		if len(q.data) == 0 {
-			t.Error("queue not initialized")
+		if cap(q.data) != 0 {
+			t.Error(cap(q.data))
 		} else if q.Size() != 0 {
 			t.Error(q.Size())
 		} else if q.indexRead != q.indexWrite {
 			t.Error(len(q.data), q.indexRead, q.indexWrite)
 		} else if q.indexRead != 0 {
 			t.Error(q.indexRead)
+		}
+	}
+}
+
+func TestResetB(t *testing.T) {
+	q := New(0)
+	q.Put(10)
+	if len(q.data) == 0 {
+		t.Error("queue not initialized")
+	} else if q.indexRead == q.indexWrite {
+		t.Error(len(q.data), q.indexRead, q.indexWrite)
+	} else if q.Size() != 1 {
+		t.Error(q.Size())
+	} else {
+		capPrev := cap(q.data)
+		q.Put(20)
+		q.Reset(capPrev)
+		if cap(q.data) != capPrev {
+			t.Error(cap(q.data), capPrev)
+		} else if q.Size() != 0 {
+			t.Error(q.Size())
+		} else if q.indexRead != q.indexWrite {
+			t.Error(len(q.data), q.indexRead, q.indexWrite)
+		} else if q.indexRead != 0 {
+			t.Error(q.indexRead)
+		} else if q.data[0] != nil {
+			t.Error("elements not cleared")
 		}
 	}
 }

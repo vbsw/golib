@@ -43,8 +43,8 @@ type TypedQueue struct {
 func New(capacity int) *Queue {
 	que := new(Queue)
 	if capacity > 0 {
-		que.prios = make([]int, capacity)
-		que.data = make([]interface{}, capacity)
+		que.prios = make([]int, capacity, capacity)
+		que.data = make([]interface{}, capacity, capacity)
 	}
 	return que
 }
@@ -55,24 +55,29 @@ func New(capacity int) *Queue {
 func NewTyped(capacity int) *TypedQueue {
 	que := new(TypedQueue)
 	if capacity > 0 {
-		que.prios = make([]int, capacity)
-		que.data = make([]TypedElement, capacity)
+		que.prios = make([]int, capacity, capacity)
+		que.data = make([]TypedElement, capacity, capacity)
 	}
 	return que
 }
 
-// Reset clears the data and sets size to 0.
+// Reset clears the queue and resets capacity. Negative capacity is ignored, but queue is still cleared.
 func (que *Queue) Reset(capacity int) {
-	if capacity > 0 {
+	if capacity < 0 || capacity == cap(que.data) {
+		if que.hasAny {
+			if que.indexRead < que.indexWrite {
+				clearData(que.data[que.indexRead:que.indexWrite])
+			} else {
+				clearData(que.data[que.indexRead:])
+				clearData(que.data[:que.indexWrite])
+			}
+		}
+	} else if capacity == 0 {
+		que.prios = nil
+		que.data = nil
+	} else {
 		que.prios = make([]int, capacity)
 		que.data = make([]interface{}, capacity)
-	} else if que.hasAny {
-		if que.indexRead < que.indexWrite {
-			clearData(que.data[que.indexRead:que.indexWrite])
-		} else {
-			clearData(que.data[que.indexRead:])
-			clearData(que.data[:que.indexWrite])
-		}
 	}
 	que.indexRead = 0
 	que.indexWrite = 0
@@ -551,18 +556,23 @@ func (que *Queue) setPrio(prio, from, to int) {
 	}
 }
 
-// Reset clears the data and sets size to 0.
+// Reset clears the queue and resets capacity. Negative capacity is ignored, but queue is still cleared.
 func (que *TypedQueue) Reset(capacity int) {
-	if capacity > 0 {
+	if capacity < 0 || capacity == cap(que.data) {
+		if que.hasAny {
+			if que.indexRead < que.indexWrite {
+				clearDataTypedElement(que.data[que.indexRead:que.indexWrite])
+			} else {
+				clearDataTypedElement(que.data[que.indexRead:])
+				clearDataTypedElement(que.data[:que.indexWrite])
+			}
+		}
+	} else if capacity == 0 {
+		que.prios = nil
+		que.data = nil
+	} else {
 		que.prios = make([]int, capacity)
 		que.data = make([]TypedElement, capacity)
-	} else if que.hasAny {
-		if que.indexRead < que.indexWrite {
-			clearDataTypedElement(que.data[que.indexRead:que.indexWrite])
-		} else {
-			clearDataTypedElement(que.data[que.indexRead:])
-			clearDataTypedElement(que.data[:que.indexWrite])
-		}
 	}
 	que.indexRead = 0
 	que.indexWrite = 0
