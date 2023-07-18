@@ -8,7 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 #include "cdata.h"
-#include "cdata_funcs.h"
+
+typedef struct { void **list; int curr, length, err1, err2, ids_len, ids_cap, sort_len; char *err_str, *ids; int *ids_props; void *set_func, *get_func; } cdata_t;
+typedef void (*cdata_set_func_t)(cdata_t *cdata, const char *id, void *data);
+typedef void (*cdata_get_func_t)(cdata_t *cdata, const char *id);
+typedef void (*cdata_init_func_t)(int pass, cdata_t *cdata);
 
 static void cdata_set(cdata_t *const cdata, const char *const id, void *const data) {
 	if (!cdata[0].err1) {
