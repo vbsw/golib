@@ -11,7 +11,10 @@ package cdata
 // #include "cdata.h"
 import "C"
 import (
+	"errors"
+	"strconv"
 	"unsafe"
+	"fmt"
 )
 
 type ErrorConvertor interface {
@@ -23,28 +26,101 @@ type CData interface {
 	SetCData(unsafe.Pointer)
 }
 
+type defaultErrConv struct {
+}
+
 func CInit(errConv ErrorConvertor, passes int, data ...CData) error {
 	var err error
 	dataLen := len(data)
 	if passes > 0 && dataLen > 0 {
 		var err1, err2 C.longlong
-		var errStr *C.char
+		var errInfo *C.char
 		datas := make([]unsafe.Pointer, dataLen)
 		funcs := make([]unsafe.Pointer, dataLen)
 		for i, d := range data {
 			funcs[i] = d.CInitFunc()
 		}
-		C.vbsw_cdata_init(C.int(passes), &datas[0], &funcs[0], C.int(dataLen), &err1, &err2, &errStr);
+		C.vbsw_cdata_init(C.int(passes), &datas[0], &funcs[0], C.int(dataLen), &err1, &err2, &errInfo);
 		if err1 == 0 {
 			for i, d := range data {
 				d.SetCData(datas[i])
 			}
-		} else if errStr == nil {
-			err = errConv.ToError(int64(err1), int64(err2), "")
 		} else {
-			err = errConv.ToError(int64(err1), int64(err2), C.GoString(errStr))
-			C.vbsw_cdata_free(unsafe.Pointer(errStr))
+			if errConv == nil {
+				errConv = new(defaultErrConv)
+			}
+			if errInfo == nil {
+				err = errConv.ToError(int64(err1), int64(err2), "")
+			} else {
+				err = errConv.ToError(int64(err1), int64(err2), C.GoString(errInfo))
+				C.vbsw_cdata_free(unsafe.Pointer(errInfo))
+			}
 		}
 	}
 	return err
+}
+
+func (errConv *defaultErrConv) ToError(err1, err2 int64, info string) error {
+	var errStr string
+	if err1 > 0 && err1 < 1000 {
+		errStr = "memory allocation failed"
+	} else {
+		errStr = "unknown error"
+	}
+	errStr = errStr + " (" + strconv.FormatInt(err1, 10)
+	if err2 == 0 {
+		errStr = errStr + ")"
+	} else {
+		errStr = errStr + ", " + strconv.FormatInt(err2, 10) + ")"
+	}
+	if len(info) > 0 {
+		errStr = errStr + "; " + info
+	}
+	return errors.New(errStr)
+}
+
+type testA struct {
+	state int
+}
+
+type testB struct {
+}
+
+type testC struct {
+}
+
+func (ta *testA) CInitFunc() unsafe.Pointer {
+	if ta.state == 0 {
+		ta.state = 1
+	} else {
+		ta.state = 2
+	}
+	return unsafe.Pointer(C.vbsw_cdata_testa)
+}
+
+func (ta *testA) SetCData(unsafe.Pointer) {
+	if ta.state == 1 {
+		ta.state = 3
+	} else {
+		ta.state += 10
+	}
+}
+
+func (tb *testB) CInitFunc() unsafe.Pointer {
+	return unsafe.Pointer(C.vbsw_cdata_testb)
+}
+
+func (ta *testB) SetCData(unsafe.Pointer) {
+}
+
+func (tc *testC) CInitFunc() unsafe.Pointer {
+	return unsafe.Pointer(C.vbsw_cdata_testc)
+}
+
+func (tc *testC) SetCData(unsafe.Pointer) {
+}
+
+//export goDebug
+func goDebug(a, b, c, d C.int) {
+	fmt.Println(a, b, c, d)
 }
