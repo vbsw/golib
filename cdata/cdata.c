@@ -9,8 +9,8 @@
 #include <string.h>
 #include "cdata.h"
 
-typedef struct { void **all; int list_len, list_cap, words_len, words_cap, err1, err2; char *err_str; void *set_func, *get_func; } cdata_t;
-typedef void (*cdata_set_func_t)(cdata_t *cdata, const char *id, void *data);
+typedef struct { void **all; char *err_str; void *set_func, *get_func; long long err1, err2; int list_len, list_cap, words_len, words_cap; } cdata_t;
+typedef void (*cdata_set_func_t)(cdata_t *cdata, void *data, const char *id);
 typedef void* (*cdata_get_func_t)(cdata_t *cdata, const char *id);
 typedef void (*cdata_init_func_t)(int pass, cdata_t *cdata);
 
