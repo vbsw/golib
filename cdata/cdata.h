@@ -12,9 +12,6 @@ extern void vbsw_cdata_testa(int pass, cdata_t *cdata);
 extern void vbsw_cdata_testb(int pass, cdata_t *cdata);
 extern void vbsw_cdata_testc(int pass, cdata_t *cdata);
 extern void vbsw_cdata_testd(int pass, cdata_t *cdata);
-extern void vbsw_cdata_teste(int pass, cdata_t *cdata);
-extern void vbsw_cdata_testf(int pass, cdata_t *cdata);
-extern void vbsw_cdata_testg(int pass, cdata_t *cdata);
 
 #ifdef __cplusplus
 }

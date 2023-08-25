@@ -26,10 +26,10 @@ type CData interface {
 }
 
 type Config struct {
-	ErrorConv ErrorConvertor
-	Passes    int
-	ListCap   int
-	WordsCap  int
+	ErrConv  ErrorConvertor
+	Passes   int
+	ListCap  int
+	WordsCap int
 }
 
 type defaultErrConv struct {
@@ -42,8 +42,8 @@ func (cfg *Config) ensureValidity(dataLen int) {
 	if cfg.WordsCap < dataLen {
 		cfg.WordsCap = dataLen * 60
 	}
-	if cfg.ErrorConv == nil {
-		cfg.ErrorConv = new(defaultErrConv)
+	if cfg.ErrConv == nil {
+		cfg.ErrConv = new(defaultErrConv)
 	}
 }
 
@@ -66,9 +66,9 @@ func CInit(cfg Config, data ...CData) error {
 			}
 		} else {
 			if errInfo == nil {
-				err = cfg.ErrorConv.ToError(int64(err1), int64(err2), "")
+				err = cfg.ErrConv.ToError(int64(err1), int64(err2), "")
 			} else {
-				err = cfg.ErrorConv.ToError(int64(err1), int64(err2), C.GoString(errInfo))
+				err = cfg.ErrConv.ToError(int64(err1), int64(err2), C.GoString(errInfo))
 				C.vbsw_cdata_free(unsafe.Pointer(errInfo))
 			}
 		}
