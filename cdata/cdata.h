@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-typedef struct { void **list; int err1, err2, ids_len, ids_cap, list_len, list_cap; char *err_str, *ids; int *props; void *set_func, *get_func; } cdata_t;
+typedef struct { void **all; int list_len, list_cap, words_len, words_cap, err1, err2; char *err_str; void *set_func, *get_func; } cdata_t;
 extern void vbsw_cdata_init(int passes, void **data, void **funcs, int length, int l_cap, int w_cap, long long *err1, long long *err2, char **err_str);
 extern void vbsw_cdata_free(void *data);
 extern void vbsw_cdata_testa(int pass, cdata_t *cdata);

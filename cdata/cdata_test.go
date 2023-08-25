@@ -9,8 +9,8 @@ package cdata
 
 import (
 	"errors"
-	"time"
 	"testing"
+	"time"
 )
 
 type testErrConv struct {

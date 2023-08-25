@@ -12,9 +12,9 @@ package cdata
 import "C"
 import (
 	"errors"
+	"fmt"
 	"strconv"
 	"unsafe"
-	"fmt"
 )
 
 type ErrorConvertor interface {
@@ -28,20 +28,20 @@ type CData interface {
 
 type Config struct {
 	ErrorConv ErrorConvertor
-	Passes int
-	SortCap int
-	WordCap int
+	Passes    int
+	ListCap   int
+	WordsCap  int
 }
 
 type defaultErrConv struct {
 }
 
 func (cfg *Config) ensureValidity(dataLen int) {
-	if cfg.SortCap < dataLen {
-		cfg.SortCap = dataLen
+	if cfg.ListCap < dataLen {
+		cfg.ListCap = dataLen
 	}
-	if cfg.WordCap < dataLen {
-		cfg.WordCap = dataLen
+	if cfg.WordsCap < dataLen {
+		cfg.WordsCap = dataLen * 60
 	}
 	if cfg.ErrorConv == nil {
 		cfg.ErrorConv = new(defaultErrConv)
@@ -60,7 +60,7 @@ func CInit(cfg Config, data ...CData) error {
 		for i, d := range data {
 			funcs[i] = d.CInitFunc()
 		}
-		C.vbsw_cdata_init(C.int(cfg.Passes), &datas[0], &funcs[0], C.int(dataLen), C.int(cfg.SortCap), C.int(cfg.WordCap), &err1, &err2, &errInfo);
+		C.vbsw_cdata_init(C.int(cfg.Passes), &datas[0], &funcs[0], C.int(dataLen), C.int(cfg.ListCap), C.int(cfg.WordsCap), &err1, &err2, &errInfo)
 		if err1 == 0 {
 			for i, d := range data {
 				d.SetCData(datas[i])
