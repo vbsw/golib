@@ -12,7 +12,6 @@ package cdata
 import "C"
 import (
 	"errors"
-	"fmt"
 	"strconv"
 	"unsafe"
 )
@@ -106,6 +105,9 @@ type testB struct {
 type testC struct {
 }
 
+type testD struct {
+}
+
 func (ta *testA) CInitFunc() unsafe.Pointer {
 	if ta.state == 0 {
 		ta.state = 1
@@ -137,7 +139,9 @@ func (tc *testC) CInitFunc() unsafe.Pointer {
 func (tc *testC) SetCData(unsafe.Pointer) {
 }
 
-//export goDebug
-func goDebug(a, b, c, d C.int) {
-	fmt.Println(a, b, c, d)
+func (td *testD) CInitFunc() unsafe.Pointer {
+	return unsafe.Pointer(C.vbsw_cdata_testd)
+}
+
+func (td *testD) SetCData(unsafe.Pointer) {
 }

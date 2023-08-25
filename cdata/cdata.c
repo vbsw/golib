@@ -9,10 +9,8 @@
 #include <string.h>
 #include "cdata.h"
 
-#include "_cgo_export.h"
-
 typedef void (*cdata_set_func_t)(cdata_t *cdata, const char *id, void *data);
-typedef void (*cdata_get_func_t)(cdata_t *cdata, const char *id);
+typedef void* (*cdata_get_func_t)(cdata_t *cdata, const char *id);
 typedef void (*cdata_init_func_t)(int pass, cdata_t *cdata);
 
 static void cdata_set(cdata_t *const cdata, const char *const id, void *const data) {
@@ -206,13 +204,34 @@ void vbsw_cdata_testc(const int pass, cdata_t *const cdata) {
 }
 
 void vbsw_cdata_testd(const int pass, cdata_t *const cdata) {
-}
-
-void vbsw_cdata_teste(const int pass, cdata_t *const cdata) {
-}
-
-void vbsw_cdata_testf(const int pass, cdata_t *const cdata) {
-}
-
-void vbsw_cdata_testg(const int pass, cdata_t *const cdata) {
+	cdata_set_func_t const set = (cdata_set_func_t)cdata[0].set_func;
+	cdata_get_func_t const get = (cdata_get_func_t)cdata[0].get_func;
+	set(cdata, "d", (void*)"d");
+	set(cdata, "a", (void*)"a");
+	set(cdata, "b", (void*)"b");
+	set(cdata, "x", (void*)"x");
+	const char *const a = (const char*)get(cdata, "a");
+	const char *const b = (const char*)get(cdata, "b");
+	const char *const d = (const char*)get(cdata, "d");
+	const char *const x = (const char*)get(cdata, "x");
+	if (a == NULL)
+		cdata[0].err1 = 9000;
+	else if (strcmp(a, "a") != 0)
+		cdata[0].err1 = 9001;
+	else if (b == NULL)
+		cdata[0].err1 = 9002;
+	else if (strcmp(b, "b") != 0)
+		cdata[0].err1 = 9003;
+	else if (d == NULL)
+		cdata[0].err1 = 9004;
+	else if (strcmp(d, "d") != 0)
+		cdata[0].err1 = 9005;
+	else if (x == NULL)
+		cdata[0].err1 = 9006;
+	else if (strcmp(x, "x") != 0)
+		cdata[0].err1 = 9007;
+	else if (cdata[0].list_len != 4)
+		cdata[0].err1 = 9008;
+	else if (cdata[0].words_len != 8)
+		cdata[0].err1 = 9009;
 }
