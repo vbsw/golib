@@ -9,6 +9,7 @@ package cdata
 
 import (
 	"errors"
+	"time"
 	"testing"
 )
 
@@ -16,10 +17,22 @@ type testErrConv struct {
 	defaultErrConv
 }
 
-/*
+func TestNamingExpansion(t *testing.T) {
+	var tc testC
+	var cfg Config = Config{nil, 2, 1, 60}
+	err := CInit(cfg, &tc)
+	time.Sleep(time.Second)
+	if err == nil {
+	} else {
+		t.Error(err.Error())
+	}
+}
+
 func TestCalls(t *testing.T) {
 	var ta testA
-	err := CInit(nil, 2, &ta)
+	var cfg Config = Config{nil, 2, 1, 1}
+	err := CInit(cfg, &ta)
+	time.Sleep(time.Second)
 	if err == nil {
 		if ta.state != 3 {
 			t.Error("order failed:", ta.state)
@@ -31,21 +44,12 @@ func TestCalls(t *testing.T) {
 
 func TestErrors(t *testing.T) {
 	var tb testB
-	var errConv testErrConv
-	err := CInit(&errConv, 2, &tb)
+	var cfg Config = Config{new(testErrConv), 2, 1, 1}
+	err := CInit(cfg, &tb)
+	time.Sleep(time.Second)
 	if err == nil {
 		t.Error("error missing")
 	} else if err.Error() != "9000" {
-		t.Error(err.Error())
-	}
-}
-*/
-
-func TestNamingExpansion(t *testing.T) {
-	var tc testC
-	err := CInit(nil, 2, &tc)
-	if err == nil {
-	} else {
 		t.Error(err.Error())
 	}
 }

@@ -26,33 +26,50 @@ type CData interface {
 	SetCData(unsafe.Pointer)
 }
 
+type Config struct {
+	ErrorConv ErrorConvertor
+	Passes int
+	SortCap int
+	WordCap int
+}
+
 type defaultErrConv struct {
 }
 
-func CInit(errConv ErrorConvertor, passes int, data ...CData) error {
+func (cfg *Config) ensureValidity(dataLen int) {
+	if cfg.SortCap < dataLen {
+		cfg.SortCap = dataLen
+	}
+	if cfg.WordCap < dataLen {
+		cfg.WordCap = dataLen
+	}
+	if cfg.ErrorConv == nil {
+		cfg.ErrorConv = new(defaultErrConv)
+	}
+}
+
+func CInit(cfg Config, data ...CData) error {
 	var err error
 	dataLen := len(data)
-	if passes > 0 && dataLen > 0 {
+	if cfg.Passes > 0 && dataLen > 0 {
 		var err1, err2 C.longlong
 		var errInfo *C.char
 		datas := make([]unsafe.Pointer, dataLen)
 		funcs := make([]unsafe.Pointer, dataLen)
+		cfg.ensureValidity(dataLen)
 		for i, d := range data {
 			funcs[i] = d.CInitFunc()
 		}
-		C.vbsw_cdata_init(C.int(passes), &datas[0], &funcs[0], C.int(dataLen), &err1, &err2, &errInfo);
+		C.vbsw_cdata_init(C.int(cfg.Passes), &datas[0], &funcs[0], C.int(dataLen), C.int(cfg.SortCap), C.int(cfg.WordCap), &err1, &err2, &errInfo);
 		if err1 == 0 {
 			for i, d := range data {
 				d.SetCData(datas[i])
 			}
 		} else {
-			if errConv == nil {
-				errConv = new(defaultErrConv)
-			}
 			if errInfo == nil {
-				err = errConv.ToError(int64(err1), int64(err2), "")
+				err = cfg.ErrorConv.ToError(int64(err1), int64(err2), "")
 			} else {
-				err = errConv.ToError(int64(err1), int64(err2), C.GoString(errInfo))
+				err = cfg.ErrorConv.ToError(int64(err1), int64(err2), C.GoString(errInfo))
 				C.vbsw_cdata_free(unsafe.Pointer(errInfo))
 			}
 		}
