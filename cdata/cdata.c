@@ -9,7 +9,7 @@
 #include <string.h>
 #include "cdata.h"
 
-typedef void (*cdata_set_func_t)(cdata_t *cdata, const char *id, void *data);
+typedef void (*cdata_set_func_t)(cdata_t *cdata, void *data, const char *id);
 typedef void* (*cdata_get_func_t)(cdata_t *cdata, const char *id);
 typedef void (*cdata_init_func_t)(int pass, cdata_t *cdata);
 
@@ -194,22 +194,22 @@ void vbsw_cdata_testb(const int pass, cdata_t *const cdata) {
 
 void vbsw_cdata_testc(const int pass, cdata_t *const cdata) {
 	cdata_set_func_t const set = (cdata_set_func_t)cdata[0].set_func;
-	set(cdata, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", NULL); /* 50x */
-	set(cdata, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", NULL);
-	set(cdata, "cccccccccccccccccccccccccccccccccccccccccccccccccc", NULL);
-	set(cdata, "dddddddddddddddddddddddddddddddddddddddddddddddddd", NULL);
-	set(cdata, "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", NULL);
-	set(cdata, "ffffffffffffffffffffffffffffffffffffffffffffffffff", NULL);
-	set(cdata, "gggggggggggggggggggggggggggggggggggggggggggggggggg", NULL);
+	set(cdata, NULL, "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"); /* 50x */
+	set(cdata, NULL, "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb");
+	set(cdata, NULL, "cccccccccccccccccccccccccccccccccccccccccccccccccc");
+	set(cdata, NULL, "dddddddddddddddddddddddddddddddddddddddddddddddddd");
+	set(cdata, NULL, "eeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee");
+	set(cdata, NULL, "ffffffffffffffffffffffffffffffffffffffffffffffffff");
+	set(cdata, NULL, "gggggggggggggggggggggggggggggggggggggggggggggggggg");
 }
 
 void vbsw_cdata_testd(const int pass, cdata_t *const cdata) {
 	cdata_set_func_t const set = (cdata_set_func_t)cdata[0].set_func;
 	cdata_get_func_t const get = (cdata_get_func_t)cdata[0].get_func;
-	set(cdata, "d", (void*)"d");
-	set(cdata, "a", (void*)"a");
-	set(cdata, "b", (void*)"b");
-	set(cdata, "x", (void*)"x");
+	set(cdata, (void*)"d", "d");
+	set(cdata, (void*)"a", "a");
+	set(cdata, (void*)"b", "b");
+	set(cdata, (void*)"x", "x");
 	const char *const a = (const char*)get(cdata, "a");
 	const char *const b = (const char*)get(cdata, "b");
 	const char *const d = (const char*)get(cdata, "d");
