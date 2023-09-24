@@ -20,60 +20,72 @@ type ErrorConvertor interface {
 	ToError(int64, int64, string) error
 }
 
-type CData interface {
-	CInitFunc() unsafe.Pointer
+type Initializer interface {
+	FuncCInit() unsafe.Pointer
 	SetCData(unsafe.Pointer)
 }
 
-type Config struct {
-	ErrConv  ErrorConvertor
-	Passes   int
-	ListCap  int
-	WordsCap int
+type Parameters struct {
+	ErrConv   ErrorConvertor
+	Passes    int
+	CListCap  int
+	CWordsCap int
+	Inits     []Initializer
 }
 
 type defaultErrConv struct {
 }
 
-func (cfg *Config) ensureValidity(dataLen int) {
-	if cfg.ListCap < dataLen {
-		cfg.ListCap = dataLen
-	}
-	if cfg.WordsCap < dataLen {
-		cfg.WordsCap = dataLen * 60
-	}
-	if cfg.ErrConv == nil {
-		cfg.ErrConv = new(defaultErrConv)
-	}
-}
-
-func CInit(cfg Config, data ...CData) error {
+func Init(params *Parameters) error {
 	var err error
-	dataLen := len(data)
-	if cfg.Passes > 0 && dataLen > 0 {
+	initsLen := len(params.Inits)
+	if params.Passes > 0 && initsLen > 0 {
 		var err1, err2 C.longlong
 		var errInfo *C.char
-		datas := make([]unsafe.Pointer, dataLen)
-		funcs := make([]unsafe.Pointer, dataLen)
-		cfg.ensureValidity(dataLen)
-		for i, d := range data {
-			funcs[i] = d.CInitFunc()
+		data := make([]unsafe.Pointer, initsLen)
+		funcs := make([]unsafe.Pointer, initsLen)
+		listCap, wordsCap := params.capacities()
+		for i, inz := range params.Inits {
+			funcs[i] = inz.FuncCInit()
 		}
-		C.vbsw_cdata_init(C.int(cfg.Passes), &datas[0], &funcs[0], C.int(dataLen), C.int(cfg.ListCap), C.int(cfg.WordsCap), &err1, &err2, &errInfo)
+		C.vbsw_cdata_init(C.int(params.Passes), &data[0], &funcs[0], C.int(initsLen), C.int(listCap), C.int(wordsCap), &err1, &err2, &errInfo)
 		if err1 == 0 {
-			for i, d := range data {
-				d.SetCData(datas[i])
+			for i, inz := range params.Inits {
+				inz.SetCData(data[i])
 			}
 		} else {
 			if errInfo == nil {
-				err = cfg.ErrConv.ToError(int64(err1), int64(err2), "")
+				err = params.errConv().ToError(int64(err1), int64(err2), "")
 			} else {
-				err = cfg.ErrConv.ToError(int64(err1), int64(err2), C.GoString(errInfo))
+				err = params.errConv().ToError(int64(err1), int64(err2), C.GoString(errInfo))
 				C.vbsw_cdata_free(unsafe.Pointer(errInfo))
 			}
 		}
 	}
 	return err
+}
+
+func (params *Parameters) capacities() (int, int) {
+	var listCap, wordsCap int
+	initsLen := len(params.Inits)
+	if params.CListCap >= initsLen {
+		listCap = params.CListCap
+	} else {
+		listCap = initsLen
+	}
+	if params.CWordsCap >= initsLen {
+		wordsCap = params.CWordsCap
+	} else {
+		wordsCap = initsLen * 60
+	}
+	return listCap, wordsCap
+}
+
+func (params *Parameters) errConv() ErrorConvertor {
+	if params.ErrConv != nil {
+		return params.ErrConv
+	}
+	return new(defaultErrConv)
 }
 
 func (errConv *defaultErrConv) ToError(err1, err2 int64, info string) error {

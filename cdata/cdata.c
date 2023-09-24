@@ -9,12 +9,12 @@
 #include <string.h>
 #include "cdata.h"
 
-typedef struct { void **all; char *err_str; void *set_func, *get_func; long long err1, err2; int list_len, list_cap, words_len, words_cap; } cdata_t;
+typedef struct { void *set_func, *get_func; char *err_str; void **all; long long err1, err2; int list_len, list_cap, words_len, words_cap; } cdata_t;
 typedef void (*cdata_set_func_t)(cdata_t *cdata, void *data, const char *id);
 typedef void* (*cdata_get_func_t)(cdata_t *cdata, const char *id);
 typedef void (*cdata_init_func_t)(int pass, cdata_t *cdata);
 
-static void cdata_set(cdata_t *const cdata, const char *const id, void *const data) {
+static void cdata_set(cdata_t *const cdata, void *const data, const char *const id) {
 	const int list_cap = cdata[0].list_cap;
 	void **const all = cdata[0].all;
 	int *const offs = (int*)(&all[list_cap]);
@@ -73,6 +73,8 @@ static void cdata_set(cdata_t *const cdata, const char *const id, void *const da
 			return;
 		}
 	} else {
+		if (left < list_len)
+			memmove(&sort[left+1], &sort[left], sizeof(int) * (size_t)(list_len-left));
 		offs[list_len] = words_len;
 		sort[left] = list_len;
 		memcpy(&words[words_len], id0, sizeof(char) * (size_t)id0_len);
