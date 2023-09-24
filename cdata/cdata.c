@@ -13,7 +13,7 @@ typedef void (*cdata_set_func_t)(cdata_t *cdata, void *data, const char *id);
 typedef void* (*cdata_get_func_t)(cdata_t *cdata, const char *id);
 typedef void (*cdata_init_func_t)(int pass, cdata_t *cdata);
 
-static void cdata_set(cdata_t *const cdata, const char *const id, void *const data) {
+static void cdata_set(cdata_t *const cdata, void *const data, const char *const id) {
 	const int list_cap = cdata[0].list_cap;
 	void **const all = cdata[0].all;
 	int *const offs = (int*)(&all[list_cap]);
@@ -72,6 +72,8 @@ static void cdata_set(cdata_t *const cdata, const char *const id, void *const da
 			return;
 		}
 	} else {
+		if (left < list_len)
+			memmove(&sort[left+1], &sort[left], sizeof(int) * (size_t)(list_len-left));
 		offs[list_len] = words_len;
 		sort[left] = list_len;
 		memcpy(&words[words_len], id0, sizeof(char) * (size_t)id0_len);
@@ -179,16 +181,16 @@ void vbsw_cdata_testb(const int pass, cdata_t *const cdata) {
 	if (pass == 1) {
 		cdata[0].err_str = (char*)malloc(sizeof(char) * 4);
 		if (cdata[0].err_str) {
-			cdata[0].err1 = 9000;
+			cdata[0].err1 = 9100;
 			cdata[0].err_str[0] = 'a';
 			cdata[0].err_str[1] = 'b';
 			cdata[0].err_str[2] = 'c';
 			cdata[0].err_str[3] = 0;
 		} else {
-			cdata[0].err1 = 9001;
+			cdata[0].err1 = 9101;
 		}
 	} else if (pass < 0 && pass != -2) {
-		cdata[0].err1 = 9002;
+		cdata[0].err1 = 9102;
 	}
 }
 
@@ -204,34 +206,76 @@ void vbsw_cdata_testc(const int pass, cdata_t *const cdata) {
 }
 
 void vbsw_cdata_testd(const int pass, cdata_t *const cdata) {
-	cdata_set_func_t const set = (cdata_set_func_t)cdata[0].set_func;
-	cdata_get_func_t const get = (cdata_get_func_t)cdata[0].get_func;
-	set(cdata, (void*)"d", "d");
-	set(cdata, (void*)"a", "a");
-	set(cdata, (void*)"b", "b");
-	set(cdata, (void*)"x", "x");
-	const char *const a = (const char*)get(cdata, "a");
-	const char *const b = (const char*)get(cdata, "b");
-	const char *const d = (const char*)get(cdata, "d");
-	const char *const x = (const char*)get(cdata, "x");
-	if (a == NULL)
-		cdata[0].err1 = 9000;
-	else if (strcmp(a, "a") != 0)
-		cdata[0].err1 = 9001;
-	else if (b == NULL)
-		cdata[0].err1 = 9002;
-	else if (strcmp(b, "b") != 0)
-		cdata[0].err1 = 9003;
-	else if (d == NULL)
-		cdata[0].err1 = 9004;
-	else if (strcmp(d, "d") != 0)
-		cdata[0].err1 = 9005;
-	else if (x == NULL)
-		cdata[0].err1 = 9006;
-	else if (strcmp(x, "x") != 0)
-		cdata[0].err1 = 9007;
-	else if (cdata[0].list_len != 4)
-		cdata[0].err1 = 9008;
-	else if (cdata[0].words_len != 8)
-		cdata[0].err1 = 9009;
+	if (pass == 0) {
+		if (cdata[0].list_len != 0) {
+			cdata[0].err1 = 9000;
+			cdata[0].err2 = cdata[0].list_len;
+		} else {
+			cdata_set_func_t const set = (cdata_set_func_t)cdata[0].set_func;
+			cdata_get_func_t const get = (cdata_get_func_t)cdata[0].get_func;
+
+			set(cdata, (void*)"x", "x");
+			const char *const x = (const char*)get(cdata, "x");
+			int *sort = &((int*)(&(cdata[0].all)[cdata[0].list_cap]))[cdata[0].list_cap];
+
+			if (x == NULL) {
+				cdata[0].err1 = 9001;
+			} else if (cdata[0].list_len != 1) {
+				cdata[0].err1 = 9002;
+				cdata[0].err2 = cdata[0].list_len;
+			} else if (strcmp(x, "x") != 0) {
+				cdata[0].err1 = 9003;
+			} else if (sort[0] != 0) {
+				cdata[0].err1 = 9004;
+			} else {
+
+				set(cdata, (void*)"a", "a");
+				const char *const a = (const char*)get(cdata, "a");
+				sort = &((int*)(&(cdata[0].all)[cdata[0].list_cap]))[cdata[0].list_cap];
+
+				if (a == NULL) {
+					cdata[0].err1 = 9005;
+				} else if (cdata[0].list_len != 2) {
+					cdata[0].err1 = 9006;
+					cdata[0].err2 = cdata[0].list_len;
+				} else if (strcmp(a, "a") != 0) {
+					cdata[0].err1 = 9007;
+				} else if (sort[1] != 0) {
+					cdata[0].err1 = 9008;
+				} else {
+
+					set(cdata, (void*)"d", "d");
+					const char *const d = (const char*)get(cdata, "d");
+					sort = &((int*)(&(cdata[0].all)[cdata[0].list_cap]))[cdata[0].list_cap];
+
+					if (d == NULL) {
+						cdata[0].err1 = 9009;
+					} else if (cdata[0].list_len != 3) {
+						cdata[0].err1 = 9010;
+						cdata[0].err2 = cdata[0].list_len;
+					} else if (strcmp(d, "d") != 0) {
+						cdata[0].err1 = 9011;
+					} else if (sort[2] != 0) {
+						cdata[0].err1 = 9012;
+					} else {
+
+						set(cdata, (void*)"b", "b");
+						const char *const b = (const char*)get(cdata, "b");
+						sort = &((int*)(&(cdata[0].all)[cdata[0].list_cap]))[cdata[0].list_cap];
+
+						if (b == NULL) {
+							cdata[0].err1 = 9013;
+						} else if (cdata[0].list_len != 4) {
+							cdata[0].err1 = 9014;
+							cdata[0].err2 = cdata[0].list_len;
+						} else if (strcmp(b, "b") != 0) {
+							cdata[0].err1 = 9015;
+						} else if (sort[3] != 0) {
+							cdata[0].err1 = 9016;
+						}
+					}
+				}
+			}
+		}
+	}
 }
