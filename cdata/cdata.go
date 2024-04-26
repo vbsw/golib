@@ -1,5 +1,5 @@
 /*
- *          Copyright 2023, Vitali Baumtrok.
+ *          Copyright 2024, Vitali Baumtrok.
  * Distributed under the Boost Software License, Version 1.0.
  *     (See accompanying file LICENSE or copy at
  *        http://www.boost.org/LICENSE_1_0.txt)
@@ -7,7 +7,7 @@
 
 // Package cdata initializes data in C.
 //
-// Inspect the implementation for more info on how to use this package.
+// Inspect the implementation for more information on how to use this package.
 package cdata
 
 // #include "cdata.h"
