@@ -6,6 +6,9 @@
  */
 
 // Package cdata initializes data in C.
+//
+// It is not sufficient to read the documentation to understand how to use this package.
+// Please look into the code to know more.
 package cdata
 
 // #include "cdata.h"
@@ -16,41 +19,50 @@ import (
 	"unsafe"
 )
 
-type ErrorConvertor interface {
+// ErrorConv converts error numbers and strings to an error.
+type ErrorConv interface {
 	ToError(int64, int64, string) error
 }
 
-type Initializer interface {
-	FuncCInit() unsafe.Pointer
+// CData is an interface that provides a function to initialize C data.
+// After initialization the C data is passed to the function SetCData.
+// SetCData is called regardless of whether C data is nil or not (i.e. has been realy initialized or not).
+type CData interface {
+	CInitFunc() unsafe.Pointer
 	SetCData(unsafe.Pointer)
 }
 
-type Parameters struct {
-	ErrConv   ErrorConvertor
-	Passes    int
-	CListCap  int
-	CWordsCap int
-	Inits     []Initializer
+// Params holds the initialization parameters including the data to initialize.
+type Params struct {
+	ErrConv  ErrorConv
+	Passes   int
+	ListCap  int
+	WordsCap int
+	Data     []CData
 }
 
 type defaultErrConv struct {
 }
 
-func Init(params *Parameters) error {
+// Init processes params.Data forwards from index 0 to len(params.Data)-1 and backwards from len(params.Data)-1 to 0.
+// Processing forwars is one pass. Processing backwards is another pass. How many passes is set via params.Passes.
+// params.ListCap and params.WordsCap is used to initialize internal data. Each will be at least >= len(params.Data).
+// If error occurs, SetCData isn't called. (It is expected, that the C initialization function already performed the cleanup.)
+func Init(params *Params) error {
 	var err error
-	initsLen := len(params.Inits)
-	if params.Passes > 0 && initsLen > 0 {
+	dataLen := len(params.Data)
+	if params.Passes > 0 && dataLen > 0 {
 		var err1, err2 C.longlong
 		var errInfo *C.char
-		data := make([]unsafe.Pointer, initsLen)
-		funcs := make([]unsafe.Pointer, initsLen)
+		data := make([]unsafe.Pointer, dataLen)
+		funcs := make([]unsafe.Pointer, dataLen)
 		listCap, wordsCap := params.capacities()
-		for i, inz := range params.Inits {
-			funcs[i] = inz.FuncCInit()
+		for i, inz := range params.Data {
+			funcs[i] = inz.CInitFunc()
 		}
-		C.vbsw_cdata_init(C.int(params.Passes), &data[0], &funcs[0], C.int(initsLen), C.int(listCap), C.int(wordsCap), &err1, &err2, &errInfo)
+		C.vbsw_cdata_init(C.int(params.Passes), &data[0], &funcs[0], C.int(dataLen), C.int(listCap), C.int(wordsCap), &err1, &err2, &errInfo)
 		if err1 == 0 {
-			for i, inz := range params.Inits {
+			for i, inz := range params.Data {
 				inz.SetCData(data[i])
 			}
 		} else {
@@ -65,32 +77,35 @@ func Init(params *Parameters) error {
 	return err
 }
 
-func (params *Parameters) capacities() (int, int) {
+// capacities returns minimum values for capacities.
+func (params *Params) capacities() (int, int) {
 	var listCap, wordsCap int
-	initsLen := len(params.Inits)
-	if params.CListCap >= initsLen {
-		listCap = params.CListCap
+	dataLen := len(params.Data)
+	if params.ListCap >= dataLen {
+		listCap = params.ListCap
 	} else {
-		listCap = initsLen
+		listCap = dataLen
 	}
-	if params.CWordsCap >= initsLen {
-		wordsCap = params.CWordsCap
+	if params.WordsCap >= dataLen {
+		wordsCap = params.WordsCap
 	} else {
-		wordsCap = initsLen * 60
+		wordsCap = dataLen * 60
 	}
 	return listCap, wordsCap
 }
 
-func (params *Parameters) errConv() ErrorConvertor {
+// errConv returns a valid error convertor.
+func (params *Params) errConv() ErrorConv {
 	if params.ErrConv != nil {
 		return params.ErrConv
 	}
 	return new(defaultErrConv)
 }
 
+// ToError returns given error numbers and string as error.
 func (errConv *defaultErrConv) ToError(err1, err2 int64, info string) error {
 	var errStr string
-	if err1 > 0 && err1 < 1000 {
+	if err1 > 0 && err1 < 1000000 {
 		errStr = "memory allocation failed"
 	} else {
 		errStr = "unknown error"

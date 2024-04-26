@@ -12,8 +12,11 @@
 typedef struct { void *set_func, *get_func; char *err_str; void **all; long long err1, err2; int list_len, list_cap, words_len, words_cap; } cdata_t;
 typedef void (*cdata_set_func_t)(cdata_t *cdata, void *data, const char *id);
 typedef void* (*cdata_get_func_t)(cdata_t *cdata, const char *id);
+/* err1, err2 and err_str can be set in this function to stop processing. If error has been set, this function will be called with a negative pass value. */
+/* In this case it is expected, that this function performs a cleanup of its previously initialized data. (cdata_t.all must not be changed directly by this function.) */
 typedef void (*cdata_init_func_t)(int pass, cdata_t *cdata);
 
+/* The id is used to identify data. The id is stored in cdata_t.all as a word. */
 static void cdata_set(cdata_t *const cdata, void *const data, const char *const id) {
 	const int list_cap = cdata[0].list_cap;
 	void **const all = cdata[0].all;
@@ -84,6 +87,7 @@ static void cdata_set(cdata_t *const cdata, void *const data, const char *const 
 	cdata[0].words_len += id0_len;
 }
 
+/* The id is used to identify data. The id is stored in cdata_t.all as a word. */
 static void* cdata_get(cdata_t *const cdata, const char *const id) {
 	const int list_cap = cdata[0].list_cap;
 	void **const all = cdata[0].all;
@@ -114,6 +118,7 @@ void vbsw_cdata_init(const int passes, void **const data, void **const funcs, co
 		const size_t list_size = sizeof(void*) * (size_t)l_cap;
 		cdata_init_func_t *const init_funcs = (cdata_init_func_t*)funcs;
 		cdata_t cdata; memset(&cdata, 0, sizeof(cdata_t));
+		/* all: pointers to data results, words offsets, words sorting, words */
 		cdata.all = (void**)malloc(list_size + sizeof(int) * (size_t)(l_cap*2) + sizeof(char) * (size_t)w_cap);
 		if (cdata.all) {
 			int pass, i;
