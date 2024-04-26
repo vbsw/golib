@@ -7,8 +7,7 @@
 
 // Package cdata initializes data in C.
 //
-// It is not sufficient to read the documentation to understand how to use this package.
-// Please look into the code to know more.
+// Inspect the implementation for more info on how to use this package.
 package cdata
 
 // #include "cdata.h"
@@ -19,33 +18,30 @@ import (
 	"unsafe"
 )
 
-// ErrorConv converts error numbers and strings to an error.
+// ErrorConv converts error numbers/strings to error.
 type ErrorConv interface {
 	ToError(int64, int64, string) error
 }
 
 // CData is an interface that provides a function to initialize C data.
 // After initialization the C data is passed to the function SetCData.
-// SetCData is called regardless of whether C data is nil or not (i.e. has been realy initialized or not).
+// SetCData is called regardless of whether C data is nil or not (i.e. has been initialized or not).
 type CData interface {
 	CInitFunc() unsafe.Pointer
 	SetCData(unsafe.Pointer)
 }
 
-// Params holds the initialization parameters including the data to initialize.
+// Params holds the initialization parameters.
 type Params struct {
-	ErrConv  ErrorConv
+	ErrConvs []ErrorConv
 	Passes   int
 	ListCap  int
 	WordsCap int
 	Data     []CData
 }
 
-type defaultErrConv struct {
-}
-
 // Init processes params.Data forwards from index 0 to len(params.Data)-1 and backwards from len(params.Data)-1 to 0.
-// Processing forwars is one pass. Processing backwards is another pass. How many passes is set via params.Passes.
+// Processing forwards is one pass. Processing backwards is another pass. How many passes is set via params.Passes.
 // params.ListCap and params.WordsCap is used to initialize internal data. Each will be at least >= len(params.Data).
 // If error occurs, SetCData isn't called. (It is expected, that the C initialization function already performed the cleanup.)
 func Init(params *Params) error {
@@ -66,18 +62,24 @@ func Init(params *Params) error {
 				inz.SetCData(data[i])
 			}
 		} else {
-			if errInfo == nil {
-				err = params.errConv().ToError(int64(err1), int64(err2), "")
-			} else {
-				err = params.errConv().ToError(int64(err1), int64(err2), C.GoString(errInfo))
+			var errStr string
+			err1Int64, err2Int64 := int64(err1), int64(err2)
+			if errInfo != nil {
+				errStr = C.GoString(errInfo)
 				C.vbsw_cdata_free(unsafe.Pointer(errInfo))
+			}
+			for i := 0; i < len(params.ErrConvs) && err == nil; i++ {
+				err = params.ErrConvs[i].ToError(err1Int64, err2Int64, errStr)
+			}
+			if err == nil {
+				err = toError(err1Int64, err2Int64, errStr)
 			}
 		}
 	}
 	return err
 }
 
-// capacities returns minimum values for capacities.
+// capacities returns the minimum values for capacities.
 func (params *Params) capacities() (int, int) {
 	var listCap, wordsCap int
 	dataLen := len(params.Data)
@@ -94,21 +96,13 @@ func (params *Params) capacities() (int, int) {
 	return listCap, wordsCap
 }
 
-// errConv returns a valid error convertor.
-func (params *Params) errConv() ErrorConv {
-	if params.ErrConv != nil {
-		return params.ErrConv
-	}
-	return new(defaultErrConv)
-}
-
-// ToError returns given error numbers and string as error.
-func (errConv *defaultErrConv) ToError(err1, err2 int64, info string) error {
+// toError returns error numbers/string as error.
+func toError(err1, err2 int64, info string) error {
 	var errStr string
 	if err1 > 0 && err1 < 1000000 {
 		errStr = "memory allocation failed"
 	} else {
-		errStr = "unknown error"
+		errStr = "unknown"
 	}
 	errStr = errStr + " (" + strconv.FormatInt(err1, 10)
 	if err2 == 0 {
