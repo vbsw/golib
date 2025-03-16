@@ -1,13 +1,11 @@
 /*
- *          Copyright 2024, Vitali Baumtrok.
+ *        Copyright 2024, 2025 Vitali Baumtrok.
  * Distributed under the Boost Software License, Version 1.0.
  *     (See accompanying file LICENSE or copy at
  *        http://www.boost.org/LICENSE_1_0.txt)
  */
 
-// Package cdata initializes data in C.
-//
-// Inspect the implementation for more information on how to use this package.
+// Package cdata processes C data.
 package cdata
 
 // #include "cdata.h"
@@ -18,48 +16,51 @@ import (
 	"unsafe"
 )
 
-// ErrorConv converts error numbers/strings to error.
-type ErrorConv interface {
+// CData is an interface to call C functions. CData are processed as list in sequence.
+// First, all CProcFunc's are called. Then, the returned data are passed in sequence
+// to SetCData.
+//
+// If an error occurs, CProcFunc's are called in reversed sequence with a negative
+// pass number. (It is expected, that CProcFunc performes cleanup.) In this case
+// SetCData is not called. The error is passed to all ToError in a reversed sequence
+// until any returns not nil. (First parameter of ToError should be unique.)
+type CData interface {
+	CProcFunc() unsafe.Pointer
+	SetCData(unsafe.Pointer)
 	ToError(int64, int64, string) error
 }
 
-// CData is an interface that provides a function to initialize C data.
-// After initialization the C data is passed to the function SetCData.
-// SetCData is called regardless of whether C data is nil or not (i.e. has been initialized or not).
-type CData interface {
-	CInitFunc() unsafe.Pointer
-	SetCData(unsafe.Pointer)
-}
-
-// Params holds the initialization parameters.
-type Params struct {
-	ErrConvs []ErrorConv
-	Passes   int
-	ListCap  int
-	WordsCap int
-	Data     []CData
-}
-
-// Init processes params.Data forwards from index 0 to len(params.Data)-1 and backwards from len(params.Data)-1 to 0.
-// Processing forwards is one pass. Processing backwards is another pass. How many passes is set via params.Passes.
-// params.ListCap and params.WordsCap is used to initialize internal data. Each will be at least >= len(params.Data).
-// If error occurs, SetCData isn't called. (It is expected, that the C initialization function already performed the cleanup.)
-func Init(params *Params) error {
+// Proc processes CData in sequence.
+//
+// The second parameter is the number of passes. The third parameter is the number of IDs in ID list.
+// The fourth parameter is the minumum IDs word capacity in bytes.
+//
+// If second or third parameter is set to 0, then no memory is allocated to manage IDs and data.
+// (Calling cdata_set or cdata_get will cause an error.)
+//
+// CProcFunc are called from index 0 to len(data)-1 and backwards from len(cdata)-1 to 0.
+// Processing forward is one pass. Processing backwards is another pass. Only in first pass
+// data (that will be passed to SetCData) can be set via cdata_set. If not set, it is initialized
+// to NULL.
+//
+// If error occurs, SetCData isn't called and CProcFunc are called from index len(cdata)-1 to 0 (once).
+// It is expected, that CProcFunc performes cleanup.
+func Proc(data []CData, params ...int) error {
 	var err error
-	dataLen := len(params.Data)
-	if params.Passes > 0 && dataLen > 0 {
+	dataLen := len(data)
+	passes, listCap, wordsCap := getParams(params, dataLen)
+	if passes > 0 && dataLen > 0 {
 		var err1, err2 C.longlong
 		var errInfo *C.char
-		data := make([]unsafe.Pointer, dataLen)
+		dataC := make([]unsafe.Pointer, dataLen)
 		funcs := make([]unsafe.Pointer, dataLen)
-		listCap, wordsCap := params.capacities()
-		for i, inz := range params.Data {
-			funcs[i] = inz.CInitFunc()
+		for i, dat := range data {
+			funcs[i] = dat.CProcFunc()
 		}
-		C.vbsw_cdata_init(C.int(params.Passes), &data[0], &funcs[0], C.int(dataLen), C.int(listCap), C.int(wordsCap), &err1, &err2, &errInfo)
+		C.vbsw_cdata_proc(C.int(passes), &dataC[0], &funcs[0], C.int(dataLen), C.int(listCap), C.int(wordsCap), &err1, &err2, &errInfo)
 		if err1 == 0 {
-			for i, inz := range params.Data {
-				inz.SetCData(data[i])
+			for i, dat := range data {
+				dat.SetCData(dataC[i])
 			}
 		} else {
 			var errStr string
@@ -68,8 +69,8 @@ func Init(params *Params) error {
 				errStr = C.GoString(errInfo)
 				C.vbsw_cdata_free(unsafe.Pointer(errInfo))
 			}
-			for i := 0; i < len(params.ErrConvs) && err == nil; i++ {
-				err = params.ErrConvs[i].ToError(err1Int64, err2Int64, errStr)
+			for i := len(data) - 1; i >= 0 && err == nil; i-- {
+				err = data[i].ToError(err1Int64, err2Int64, errStr)
 			}
 			if err == nil {
 				err = toError(err1Int64, err2Int64, errStr)
@@ -79,29 +80,43 @@ func Init(params *Params) error {
 	return err
 }
 
-// capacities returns the minimum values for capacities.
-func (params *Params) capacities() (int, int) {
-	var listCap, wordsCap int
-	dataLen := len(params.Data)
-	if params.ListCap >= dataLen {
-		listCap = params.ListCap
+func getParams(params []int, dataLen int) (int, int, int) {
+	var passes, listCap, wordsCap int
+	if len(params) > 2 {
+		if params[2] > 0 {
+			wordsCap = params[2]
+		}
+	} else {
+		wordsCap = dataLen * 56
+	}
+	if len(params) > 1 {
+		if wordsCap > 0 && params[1] > 0 {
+			listCap = params[1]
+		}
 	} else {
 		listCap = dataLen
 	}
-	if params.WordsCap >= dataLen {
-		wordsCap = params.WordsCap
+	if len(params) > 0 && params[0] >= 0 {
+		passes = params[0]
 	} else {
-		wordsCap = dataLen * 60
+		passes = 1
 	}
-	return listCap, wordsCap
+	return passes, listCap, wordsCap
 }
 
 // toError returns error numbers/string as error.
 func toError(err1, err2 int64, info string) error {
 	var errStr string
-	if err1 > 0 && err1 < 1000000 {
-		errStr = "memory allocation failed"
-	} else {
+	if err1 > 0 {
+		if err1 < 1000001 {
+			errStr = "memory allocation failed"
+		} else if err1 == 1000001 {
+			errStr = "cdata_set has been called although no memory has been allocated to manage IDs"
+		} else if err1 == 1000002 {
+			errStr = "cdata_get has been called although no memory has been allocated to manage IDs"
+		}
+	}
+	if len(errStr) == 0 {
 		errStr = "unknown"
 	}
 	errStr = errStr + " (" + strconv.FormatInt(err1, 10)
