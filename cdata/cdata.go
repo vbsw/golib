@@ -23,6 +23,7 @@ type Collection struct {
 	funcs []unsafe.Pointer
 	data  []unsafe.Pointer
 	Err   error
+	dirty bool
 }
 
 // Processing is an interface to manage C data and C functions.
@@ -36,6 +37,7 @@ type Processing interface {
 // Add adds Processing to procs.
 func (collection *Collection) Add(proc Processing) {
 	collection.procs = append(collection.procs, proc)
+	collection.dirty = true
 }
 
 // Reset sets len(procs) = 0.
@@ -44,6 +46,7 @@ func (collection *Collection) Reset() {
 	collection.funcs = collection.funcs[:0]
 	collection.data = collection.data[:0]
 	collection.Err = nil
+	collection.dirty = false
 }
 
 // Process calls CFunc in sequence from 0 to len(procs) - 1 and backwards from len(procs)-1 to 0.
@@ -87,12 +90,17 @@ func (collection *Collection) Process(passes int) {
 			}
 		}
 	}
+	collection.dirty = false
 }
 
 // Assign calls SetCData on all Processings.
 func (collection *Collection) Assign() {
-	for i, proc := range collection.procs {
-		proc.SetCData(collection.data[i])
+	if !collection.dirty {
+		for i, proc := range collection.procs {
+			proc.SetCData(collection.data[i])
+		}
+	} else {
+		panic("cdata outdated, call Process first")
 	}
 }
 
