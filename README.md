@@ -7,7 +7,9 @@ golib is a package for Go providing packages for common use. It is published on 
 
 **bgproc** - start a process in "background", i.e. as a from terminal detached process  
 **callback** - map objects to ids; this allows to manage callbacks from C to Go  
+**cdata** - processes C data in specific order  
 **check** - check files and their content  
+**cproc** - processes C data in specific order  
 **idxsearch** - indexed binary search for slices of basic type  
 **insert** - insert data in slices of basic type  
 **iter** - run over files to process them  
@@ -15,10 +17,11 @@ golib is a package for Go providing packages for common use. It is published on 
 **queue** - simple First-In-First-Out queue  
 **ref** - convert bytes to string or string to bytes without reallocating data  
 **remove** - remove data in slices of basic type  
+**rwswitch** - a switch between 0, 1 and 2  
 **search** - binary search for slices of basic type  
 
 ## Copyright
-Copyright 2018, 2020 - 2022, Vitali Baumtrok (vbsw@mailbox.org).
+Copyright 2018, 2020 - 2025, Vitali Baumtrok (vbsw@mailbox.org).
 
 golib is distributed under the Boost Software License, version 1.0. (See accompanying file LICENSE or copy at http://www.boost.org/LICENSE_1_0.txt)
 
