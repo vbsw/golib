@@ -14,6 +14,7 @@ import (
 	"errors"
 	"strconv"
 	"unsafe"
+	"fmt"
 )
 
 // CData is an interface to call C functions. CData are processed as list in sequence.
@@ -28,6 +29,11 @@ type CData interface {
 	CProcFunc() unsafe.Pointer
 	SetCData(unsafe.Pointer)
 	ToError(int64, int64, string) error
+}
+
+//export goDebug
+func goDebug(a, b C.int, c, d C.ulong) {
+	fmt.Println(a, b, c, d)
 }
 
 // Proc processes CData in sequence.
@@ -108,6 +114,7 @@ func getParams(params []int, dataLen int) (int, int, int) {
 func toError(err1, err2 int64, info string) error {
 	var errStr string
 	if err1 > 0 {
+		/* 1 - 100, 1000001 - 1000100 */
 		if err1 < 1000001 {
 			errStr = "memory allocation failed"
 		} else if err1 == 1000001 {

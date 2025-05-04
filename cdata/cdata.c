@@ -9,14 +9,20 @@
 #include <string.h>
 #include "cdata.h"
 
-/* protected */
+/* Go functions can not be passed to c directly.            */
+/* They can only be called from c.                          */
+/* This code is an indirection to call Go callbacks.        */
+/* _cgo_export.h is generated automatically by cgo.         */
+#include "_cgo_export.h"
+
+/* public */
 typedef struct { void *set_func, *get_func; char *err_str; void **all; long long err1, err2; int list_len, list_cap, words_len, words_cap; } cdata_t;
+
+/* protected */
 typedef void (*cdata_set_func_t)(cdata_t *cdata, void *data, const char *id);
 typedef void* (*cdata_get_func_t)(cdata_t *cdata, const char *id);
 
 /* private */
-/* err1, err2 and err_str can be set in this function to stop processing. If error has been set, this function will be called with a negative pass value. */
-/* In this case it is expected, that this function performs a cleanup of its previously initialized data. (cdata_t.all must not be changed directly by this function.) */
 typedef void (*cdata_proc_func_t)(int pass, cdata_t *cdata);
 
 #define VBSW_ERR_ALLOC_1 1
@@ -162,7 +168,7 @@ void vbsw_cdata_proc(const int passes, void **const data, void **const funcs, co
 					if (proc_func)
 						proc_func(pass, &cdata);
 					/* init data as NULL, if not set */
-					if (pass == 0 && cdata.all && cdata.list_len <= i)
+					if (pass == 0 && cdata.err1 == 0 && cdata.all && cdata.list_len <= i)
 						cdata_set(&cdata, NULL, "");
 				}
 				/* backwards */
