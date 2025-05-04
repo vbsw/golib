@@ -5,7 +5,7 @@
 extern "C" {
 #endif
 
-extern void vbsw_cdata_proc(int passes, void **data, void **funcs, int length, int l_cap, int w_cap, long long *err1, long long *err2, char **err_str);
+extern void vbsw_cdata_proc(int passes, int length, void **funcs, void **data, long long *err1, long long *err2, char **err_str);
 extern void vbsw_cdata_free(void *data);
 
 #ifdef __cplusplus
